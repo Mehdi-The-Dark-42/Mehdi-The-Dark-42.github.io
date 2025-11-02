@@ -4,85 +4,147 @@
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahnou Mehdi - Développeur Web</title>
-    <meta name="description" content="Portfolio professionnel de développement web avec projets et compétences">
+    <title>Ahnou Mehdi - Développeur Web & Étudiant</title>
+    <meta name="description" content="Portfolio d'Ahnou Mehdi, développeur web et étudiant au Lycée Simone Weil">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: "#3B82F6",
-                        secondary: "#1E40AF",
+                        primary: "#4F46E5",
+                        secondary: "#7C3AED",
                         accent: "#F59E0B"
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+        
         .card-hover {
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
         .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .skill-bar {
+            transition: width 1.5s ease-out;
         }
     </style>
 </head>
-<body class="font-sans bg-gray-50">
+<body class="bg-gray-50 antialiased">
     <!-- Navigation -->
-    <header class="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4">
+    <header class="fixed w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 py-4">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold text-gray-800">Ahnou Mehdi</a>
+                <a href="#" class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    Ahnou Mehdi
+                </a>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#accueil" class="text-gray-600 hover:text-primary transition-colors">Accueil</a>
-                    <a href="#apropos" class="text-gray-600 hover:text-primary transition-colors">À propos</a>
-                    <a href="#competences" class="text-gray-600 hover:text-primary transition-colors">Compétences</a>
-                    <a href="#projets" class="text-gray-600 hover:text-primary transition-colors">Projets</a>
-                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors">Contact</a>
+                    <a href="#accueil" class="text-gray-700 hover:text-primary transition-colors font-medium">Accueil</a>
+                    <a href="#apropos" class="text-gray-700 hover:text-primary transition-colors font-medium">À propos</a>
+                    <a href="#competences" class="text-gray-700 hover:text-primary transition-colors font-medium">Compétences</a>
+                    <a href="#parcours" class="text-gray-700 hover:text-primary transition-colors font-medium">Parcours</a>
+                    <a href="#projets" class="text-gray-700 hover:text-primary transition-colors font-medium">Projets</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary transition-colors font-medium">Contact</a>
                 </div>
-                <button class="md:hidden text-gray-600">
-                    <i class="fas fa-bars text-xl"></i>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-primary">
+                    <i class="fas fa-bars text-2xl"></i>
                 </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+                <a href="#accueil" class="block text-gray-700 hover:text-primary transition-colors font-medium">Accueil</a>
+                <a href="#apropos" class="block text-gray-700 hover:text-primary transition-colors font-medium">À propos</a>
+                <a href="#competences" class="block text-gray-700 hover:text-primary transition-colors font-medium">Compétences</a>
+                <a href="#parcours" class="block text-gray-700 hover:text-primary transition-colors font-medium">Parcours</a>
+                <a href="#projets" class="block text-gray-700 hover:text-primary transition-colors font-medium">Projets</a>
+                <a href="#contact" class="block text-gray-700 hover:text-primary transition-colors font-medium">Contact</a>
             </div>
         </nav>
     </header>
 
     <!-- Hero Section -->
     <section id="accueil" class="min-h-screen gradient-bg flex items-center pt-20">
-        <div class="container mx-auto px-6 py-20">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="md:w-1/2 text-white">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Je suis <span class="text-accent">Développeur Web</span></h1>
-                    <p class="text-xl mb-8 opacity-90">Je crée des expériences digitales modernes et performantes avec les dernières technologies web.</p>
-                    <div class="flex space-x-4">
-                       
-                
-                        <a href="assets/CV_Mehdi.pdf" download="CV_Mehdi.pdf" class="bg-white text-gray-800 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center space-x-2">
-        <i class="fas fa-download"></i>
-        <span>Télécharger CV</span>
-    </a>
-</div>
-
+        <div class="container mx-auto px-4 sm:px-6 py-20">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="md:w-1/2 text-white fade-in">
+                    <p class="text-lg mb-3 opacity-90">👋 Bonjour, je suis</p>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                        Ahnou Mehdi
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-accent typing-cursor">
+                        Développeur Web
+                    </h2>
+                    <p class="text-xl mb-8 opacity-90 leading-relaxed">
+                        Étudiant passionné par le développement web au <span class="font-semibold">Lycée Simone Weil</span> à Saint-Priest-en-Jarez. 
+                        Je crée des expériences numériques modernes et innovantes avec les technologies web les plus récentes.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="bg-accent text-gray-900 px-8 py-4 rounded-lg font-bold hover:bg-yellow-500 transition-all transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-paper-plane mr-2"></i>Me contacter
+                        </a>
+                        <a href="#projets" class="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition-all border-2 border-white/30">
+                            <i class="fas fa-rocket mr-2"></i>Voir mes projets
+                        </a>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <a href="https://github.com/ahnoumehdi" target="_blank" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="mailto:mehdiahnou@gmail.com" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
+                <div class="md:w-1/2 flex justify-center">
                     <div class="relative">
-                        <div class="w-80 h-80 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center">
-                            <img src="https://picsum.photos/300?random=1" alt="Photo de profil" class="w-72 h-72 rounded-full object-cover border-4 border-white">
+                        <div class="w-80 h-80 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center shadow-2xl">
+                            <div class="w-72 h-72 rounded-full bg-gradient-to-br from-accent to-yellow-600 flex items-center justify-center text-white">
+                                <i class="fas fa-code text-9xl opacity-90"></i>
+                            </div>
                         </div>
-                        <div class="absolute -bottom-4 -right-4 bg-accent text-white px-6 py-2 rounded-full font-semibold">
-                            Disponible
+                        <div class="absolute -bottom-6 -right-6 bg-accent text-gray-900 px-6 py-3 rounded-full font-bold shadow-lg animate-pulse">
+                            <i class="fas fa-graduation-cap mr-2"></i>Étudiant
+                        </div>
+                        <div class="absolute -top-6 -left-6 bg-white text-primary px-6 py-3 rounded-full font-bold shadow-lg">
+                            <i class="fas fa-laptop-code mr-2"></i>Dev Web
                         </div>
                     </div>
                 </div>
@@ -92,39 +154,104 @@
 
     <!-- À propos -->
     <section id="apropos" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16">À propos de moi</h2>
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
-                    <img src="https://picsum.photos/500/400?random=2" alt="À propos de moi" class="rounded-lg shadow-lg w-full">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">À propos de moi</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-primary/5 to-secondary/5 p-8 rounded-2xl border border-primary/10">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-user-graduate text-primary mr-3"></i>
+                            Qui suis-je ?
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed text-lg">
+                            Je suis <span class="font-bold text-primary">Ahnou Mehdi</span>, un développeur web passionné et étudiant au 
+                            <span class="font-bold text-secondary">Lycée Simone Weil</span> situé à Saint-Priest-en-Jarez (42270). 
+                            Ma passion pour le code et les technologies web m'anime au quotidien.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-accent/5 to-yellow-500/5 p-8 rounded-2xl border border-accent/10">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-rocket text-accent mr-3"></i>
+                            Ma vision
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed text-lg">
+                            J'aspire à devenir un développeur web complet, capable de créer des applications modernes, 
+                            performantes et accessibles. Je crois en l'apprentissage continu et j'aime relever de nouveaux défis techniques.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-500/5 to-emerald-500/5 p-8 rounded-2xl border border-green-500/10">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-heart text-red-500 mr-3"></i>
+                            Mes passions
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed text-lg">
+                            Au-delà du développement, je suis fasciné par l'intelligence artificielle, le design UI/UX, 
+                            et les nouvelles technologies. J'aime explorer de nouveaux frameworks et contribuer à des projets open source.
+                        </p>
+                    </div>
                 </div>
-                <div class="md:w-1/2">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Développeur passionné par l'innovation</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Avec plus de 3 ans d'expérience dans le développement web, je me spécialise dans la création d'applications modernes et performantes. Mon approche combine créativité et expertise technique pour livrer des solutions qui répondent parfaitement aux besoins des utilisateurs.
-                    </p>
-                    <div class="grid grid-cols-2 gap-6 mb-8">
-                        <div class="flex items-center">
-                            <div class="bg-primary/10 p-3 rounded-full mr-4">
-                                <i class="fas fa-code text-primary text-xl"></i>
+
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Informations</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-primary text-xl mr-4 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Localisation</p>
+                                    <p class="text-gray-600">Saint-Priest-en-Jarez, Loire (42)</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Développement</h4>
-                                <p class="text-gray-600 text-sm">Applications web</p>
+                            <div class="flex items-start">
+                                <i class="fas fa-school text-secondary text-xl mr-4 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Établissement</p>
+                                    <p class="text-gray-600">Lycée Simone Weil</p>
+                                    <p class="text-sm text-gray-500">42270 Saint-Priest-en-Jarez</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="bg-green-100 p-3 rounded-full mr-4">
-                                <i class="fas fa-mobile-alt text-green-600 text-xl"></i>
+                            <div class="flex items-start">
+                                <i class="fas fa-code text-accent text-xl mr-4 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Spécialisation</p>
+                                    <p class="text-gray-600">Développement Web Full Stack</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Responsive</h4>
-                                <p class="text-gray-600 text-sm">Design adaptatif</p>
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-green-600 text-xl mr-4 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Email</p>
+                                    <p class="text-gray-600">mehdiahnou@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-phone text-blue-600 text-xl mr-4 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Téléphone</p>
+                                    <p class="text-gray-600">+33 6 34 39 90 56</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    </button>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-primary/10 p-6 rounded-xl text-center">
+                            <i class="fas fa-project-diagram text-primary text-3xl mb-2"></i>
+                            <p class="text-3xl font-bold text-gray-800">10+</p>
+                            <p class="text-gray-600 font-medium">Projets</p>
+                        </div>
+                        <div class="bg-secondary/10 p-6 rounded-xl text-center">
+                            <i class="fas fa-certificate text-secondary text-3xl mb-2"></i>
+                            <p class="text-3xl font-bold text-gray-800">5+</p>
+                            <p class="text-gray-600 font-medium">Certifications</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,169 +259,503 @@
 
     <!-- Compétences -->
     <section id="competences" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16">Mes Compétences</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-md card-hover text-center">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mes Compétences</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Technologies et outils que je maîtrise pour créer des applications web modernes et performantes
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-orange-500">
+                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-html5 text-orange-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">HTML5</h3>
+                    <p class="text-gray-600 text-center text-sm">Structure sémantique et accessible</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-blue-500">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-html5 text-blue-600 text-2xl"></i>
+                        <i class="fab fa-css3-alt text-blue-600 text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Frontend</h3>
-                    <p class="text-gray-600">HTML5, CSS3, JavaScript, React, Vue.js</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">CSS3</h3>
+                    <p class="text-gray-600 text-center text-sm">Design responsive et animations</p>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-md card-hover text-center">
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-yellow-500">
+                    <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-js text-yellow-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">JavaScript</h3>
+                    <p class="text-gray-600 text-center text-sm">Interactivité et dynamisme</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-cyan-500">
+                    <div class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-react text-cyan-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">React</h3>
+                    <p class="text-gray-600 text-center text-sm">Interfaces utilisateur modernes</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-green-600">
                     <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-node-js text-green-600 text-2xl"></i>
+                        <i class="fab fa-node-js text-green-600 text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Backend</h3>
-                    <p class="text-gray-600">Node.js, Express, MongoDB, MySQL</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Node.js</h3>
+                    <p class="text-gray-600 text-center text-sm">Backend JavaScript</p>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-md card-hover text-center">
-                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-paint-brush text-purple-600 text-2xl"></i>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-indigo-500">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-php text-indigo-600 text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">UI/UX Design</h3>
-                    <p class="text-gray-600">Figma, Adobe XD, Prototypage</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">PHP</h3>
+                    <p class="text-gray-600 text-center text-sm">Développement serveur</p>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-md card-hover text-center">
-                    <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-tools text-red-600 text-2xl"></i>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-blue-700">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-database text-blue-700 text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Outils</h3>
-                    <p class="text-gray-600">Git, Docker, AWS, CI/CD</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">MySQL</h3>
+                    <p class="text-gray-600 text-center text-sm">Bases de données relationnelles</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-gray-800">
+                    <div class="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-github text-gray-800 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Git & GitHub</h3>
+                    <p class="text-gray-600 text-center text-sm">Gestion de versions</p>
+                </div>
+            </div>
+
+            <!-- Barres de compétences -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Niveau de maîtrise</h3>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold text-gray-800">HTML/CSS</span>
+                            <span class="text-primary font-bold">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-blue-600 h-3 rounded-full skill-bar" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold text-gray-800">JavaScript</span>
+                            <span class="text-yellow-600 font-bold">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full skill-bar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold text-gray-800">React</span>
+                            <span class="text-cyan-600 font-bold">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 h-3 rounded-full skill-bar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold text-gray-800">Node.js & PHP</span>
+                            <span class="text-green-600 font-bold">70%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full skill-bar" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold text-gray-800">Bases de données</span>
+                            <span class="text-indigo-600 font-bold">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 h-3 rounded-full skill-bar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parcours -->
+    <section id="parcours" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mon Parcours</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
+                <p class="text-gray-600 text-lg">Formation et certifications</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <!-- Formation actuelle -->
+                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 p-8 rounded-2xl shadow-lg mb-8 border border-primary/10">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-graduation-cap text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                <h3 class="text-2xl font-bold text-gray-800">Lycée Simone Weil</h3>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">En cours</span>
+                            </div>
+                            <p class="text-lg text-gray-700 font-semibold mb-2">Formation Développement Web</p>
+                            <p class="text-gray-600 mb-3">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                42270 Saint-Priest-en-Jarez
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Formation complète en développement web couvrant les technologies frontend et backend, 
+                                les bases de données, et les bonnes pratiques de développement. Apprentissage de HTML, CSS, 
+                                JavaScript, React, PHP, et MySQL à travers des projets concrets.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Certifications & Formations en ligne</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-gray-800">
+                        <div class="text-center">
+                            <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fab fa-github text-gray-800 text-3xl"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">freeCodeCamp</h4>
+                            <p class="text-gray-600 text-sm mb-4">Certifications développement</p>
+                            <a href="https://freecodecamp.org" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
+                                Voir les certifs <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projets -->
-    <section id="projets" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16">Mes Projets</h2>
+    <section id="projets" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mes Projets</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
+                <p class="text-gray-600 text-lg">Découvrez mes réalisations et projets web</p>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                    <img src="https://picsum.photos/400/250?random=3" alt="Projet E-commerce" class="w-full h-48 object-cover">
-                    <div class="p-6">
-
-
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Intégration et personnalisation GLPI</h3>
-                        <p class="text-gray-600 mb-4"></p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Node.js</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">MongoDB</span>
+                <!-- Projet 1 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-tools text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">Projet Pro</span>
                         </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-primary hover:text-secondary transition-colors">
-                                <i class="fas fa-external-link-alt"></i> Voir le projet
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Intégration GLPI</h3>
+                        <p class="text-gray-600 mb-4">
+                            Personnalisation et intégration d'une solution GLPI pour la gestion de parc informatique et helpdesk.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">PHP</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">MySQL</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">JavaScript</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
                             </a>
-                            <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">
-                                <i class="fab fa-github"></i> Code source
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                    <img src="https://picsum.photos/400/250?random=4" alt="Application SaaS" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Application SaaS</h3>
-                        <p class="text-gray-600 mb-4">Solution de gestion d'entreprise avec tableau de bord analytique.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Vue.js</span>
-                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Express</span>
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">PostgreSQL</span>
+
+                <!-- Projet 2 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">E-commerce</span>
                         </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-primary hover:text-secondary transition-colors">
-                                <i class="fas fa-external-link-alt"></i> Voir le projet
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Site E-commerce</h3>
+                        <p class="text-gray-600 mb-4">
+                            Plateforme de vente en ligne moderne avec panier, paiement sécurisé et gestion des stocks.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-xs font-semibold">React</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Node.js</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">MongoDB</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
                             </a>
-                            <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">
-                                <i class="fab fa-github"></i> Code source
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                    <img src="https://picsum.photos/400/250?random=5" alt="Application Mobile" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">App Mobile</h3>
-                        <p class="text-gray-600 mb-4">Application de fitness avec suivi d'activités et statistiques.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React Native</span>
-                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Firebase</span>
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">GraphQL</span>
+
+                <!-- Projet 3 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                        <i class="fas fa-blog text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">Blog</span>
                         </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-primary hover:text-secondary transition-colors">
-                                <i class="fas fa-external-link-alt"></i> Voir le projet
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Blog Personnel</h3>
+                        <p class="text-gray-600 mb-4">
+                            Blog technique avec système de commentaires, catégories et administration complète.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-semibold">PHP</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">MySQL</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">Bootstrap</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
                             </a>
-                            <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">
-                                <i class="fab fa-github"></i> Code source
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 4 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
+                        <i class="fas fa-tasks text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">Productivité</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Todo App</h3>
+                        <p class="text-gray-600 mb-4">
+                            Application de gestion de tâches avec drag & drop, filtres et synchronisation temps réel.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-xs font-semibold">React</span>
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">Firebase</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">Tailwind</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
+                            </a>
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 5 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">Dashboard</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Analytics Dashboard</h3>
+                        <p class="text-gray-600 mb-4">
+                            Tableau de bord analytique avec graphiques interactifs et visualisation de données.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">Vue.js</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Chart.js</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">API REST</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
+                            </a>
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 6 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative h-48 bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-6xl"></i>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span class="text-sm font-bold text-gray-800">Portfolio</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Portfolio Design</h3>
+                        <p class="text-gray-600 mb-4">
+                            Site portfolio créatif avec animations fluides et design moderne pour présenter mes projets.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">HTML</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">CSS</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">JavaScript</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                                <i class="fas fa-eye mr-2"></i>Détails
+                            </a>
+                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fab fa-github"></i>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="text-center mt-12">
+                <a href="https://github.com" target="_blank" class="inline-flex items-center bg-gray-900 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-800 transition-all shadow-lg">
+                    <i class="fab fa-github text-2xl mr-3"></i>
+                    Voir tous mes projets sur GitHub
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-20 bg-gray-900 text-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16">Contactez-moi</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6">Travaillons ensemble</h3>
-                    <p class="text-gray-300 mb-8 leading-relaxed">
-                        Vous avez un projet en tête ? N'hésitez pas à me contacter. Je serai ravi de discuter de vos idées et de voir comment je peux vous aider à les concrétiser.
-                    </p>
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope text-accent text-xl mr-4"></i>
-                            <span>mehdiahnou@gmail.com</span>
+    <section id="contact" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Contactez-moi</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4"></div>
+                <p class="text-gray-300 text-lg">Une question ? Un projet ? N'hésitez pas à me contacter !</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <!-- Informations de contact -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-4">Discutons de votre projet</h3>
+                        <p class="text-gray-300 leading-relaxed text-lg mb-6">
+                            Que vous ayez une idée de projet, une question sur mes compétences, ou simplement envie d'échanger 
+                            sur le développement web, je serais ravi de vous répondre rapidement.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
+                            <div class="bg-accent w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-gray-900 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Email</p>
+                                <a href="mailto:mehdiahnou@gmail.com" class="text-white font-semibold text-lg hover:text-accent transition-colors">
+                                    mehdiahnou@gmail.com
+                                </a>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-phone text-accent text-xl mr-4"></i>
-                            <span>+33 6 34 39 90 56</span>
+
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
+                            <div class="bg-primary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Téléphone</p>
+                                <a href="tel:+33634399056" class="text-white font-semibold text-lg hover:text-primary transition-colors">
+                                    +33 6 34 39 90 56
+                                </a>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-map-marker-alt text-accent text-xl mr-4"></i>
-                            <span>Saint-Etienne, France</span>
+
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
+                            <div class="bg-secondary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Localisation</p>
+                                <p class="text-white font-semibold text-lg">
+                                    Saint-Priest-en-Jarez, Loire (42)
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex space-x-4 mt-8">
-                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-12 h-12 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-12 h-12 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-12 h-12 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+
+                    <div class="pt-6">
+                        <p class="text-gray-400 mb-4">Retrouvez-moi sur :</p>
+                        <div class="flex gap-4">
+                            <a href="https://github.com" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
+                                <i class="fab fa-github text-2xl"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
+                                <i class="fab fa-linkedin-in text-2xl"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
+                                <i class="fab fa-twitter text-2xl"></i>
+                            </a>
+                            <a href="mailto:mehdiahnou@gmail.com" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
+                                <i class="fas fa-envelope text-2xl"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-gray-800 p-8 rounded-xl">
-                    <form class="space-y-6">
+
+                <!-- Formulaire de contact -->
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+                    <h3 class="text-2xl font-bold mb-6">Envoyez-moi un message</h3>
+                    <form id="contact-form" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-gray-300 mb-2">Nom</label>
-                                <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors" placeholder="Votre nom">
+                                <label class="block text-gray-300 mb-2 font-semibold">Nom complet *</label>
+                                <input 
+                                    type="text" 
+                                    required
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
+                                    placeholder="Votre nom">
                             </div>
                             <div>
-                                <label class="block text-gray-300 mb-2">Email</label>
-                                <input type="email" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors" placeholder="votre@email.com">
+                                <label class="block text-gray-300 mb-2 font-semibold">Email *</label>
+                                <input 
+                                    type="email" 
+                                    required
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
+                                    placeholder="votre@email.com">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-gray-300 mb-2">Sujet</label>
-                            <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors" placeholder="Sujet du message">
+                            <label class="block text-gray-300 mb-2 font-semibold">Sujet *</label>
+                            <input 
+                                type="text" 
+                                required
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
+                                placeholder="Sujet de votre message">
                         </div>
                         <div>
-                            <label class="block text-gray-300 mb-2">Message</label>
-                            <textarea rows="5" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors" placeholder="Votre message..."></textarea>
+                            <label class="block text-gray-300 mb-2 font-semibold">Message *</label>
+                            <textarea 
+                                rows="5" 
+                                required
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all resize-none" 
+                                placeholder="Décrivez votre projet ou votre question..."></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-accent text-white py-3 rounded-lg font-semibold hover:bg-yellow-600 transition-colors">
+                        <button 
+                            type="submit" 
+                            class="w-full bg-gradient-to-r from-accent to-yellow-600 text-gray-900 py-4 rounded-lg font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-paper-plane mr-2"></i>
                             Envoyer le message
                         </button>
                     </form>
@@ -304,46 +765,92 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 py-8">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-gray-400 mb-4 md:mb-0">
-                    <p>&copy; 2024 Mon Portfolio. Tous droits réservés.</p>
+    <footer class="bg-gray-900 border-t border-gray-800 py-8">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-gray-400">
+                    <p>&copy; 2024 Ahnou Mehdi. Tous droits réservés.</p>
                 </div>
-                <div class="flex space-x-6">
+                <div class="flex gap-6 text-sm">
                     <a href="#" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Politique de confidentialité</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Confidentialité</a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    <p>Fait avec <i class="fas fa-heart text-red-500"></i> par Mehdi</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Navigation smooth scroll
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Fermer le menu mobile si ouvert
+                    document.getElementById('mobile-menu').classList.add('hidden');
                 }
             });
         });
 
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
         // Form submission
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Message envoyé ! Je vous répondrai dans les plus brefs délais.');
+            alert('✅ Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.');
             this.reset();
         });
 
-        // Mobile menu toggle (simplified)
-        document.querySelector('button.md\\:hidden').addEventListener('click', function() {
-            alert('Menu mobile - À implémenter avec une logique de toggle');
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
-</html>
+</html>-lg font-bold text-gray-800 mb-2">GitHub</h4>
+                            <p class="text-gray-600 text-sm mb-4">Gestion de versions et collaboration</p>
+                            <a href="https://github.com" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
+                                Voir le profil <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-blue-600">
+                        <div class="text-center">
+                            <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-blue-600 text-3xl"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">OpenClassrooms</h4>
+                            <p class="text-gray-600 text-sm mb-4">Parcours développeur web</p>
+                            <a href="https://openclassrooms.com" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
+                                Voir les cours <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-green-600">
+                        <div class="text-center">
+                            <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-code text-green-600 text-3xl"></i>
+                            </div>
+                            <h4 class="text
