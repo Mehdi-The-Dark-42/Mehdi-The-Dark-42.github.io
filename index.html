@@ -4,253 +4,1014 @@
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahnou Mehdi - Développeur Web & Étudiant</title>
+    <title>Ahnou Mehdi — Développeur Web</title>
     <meta name="description" content="Portfolio d'Ahnou Mehdi, développeur web et étudiant au Lycée Simone Weil">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#06B6D4",
-                        secondary: "#0891B2",
-                        accent: "#EC4899"
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #EC4899 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --surface2: #1c1c27;
+            --border: rgba(255,255,255,0.07);
+            --text: #f0eff5;
+            --text-muted: #8b8a99;
+            --accent: #7c6af7;
+            --accent2: #f06292;
+            --accent3: #43e8d8;
+            --accent-glow: rgba(124, 106, 247, 0.3);
         }
 
-        .skill-bar {
-            transition: width 1.5s ease-out;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, opacity 0.2s;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid rgba(124,106,247,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.35s cubic-bezier(.23,1,.32,1), width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%);
+        }
+        body:hover .cursor { opacity: 1; }
+        a:hover ~ .cursor, button:hover ~ .cursor { transform: translate(-50%, -50%) scale(2.5); }
+
+        /* Nav */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,15,0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        nav { display: flex; gap: 2.5rem; align-items: center; }
+        nav a {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        nav a:hover { color: var(--text); }
+        nav a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--accent);
+            color: #fff !important;
+            padding: 0.55rem 1.3rem;
+            border-radius: 100px;
+            font-size: 0.82rem !important;
+            letter-spacing: 0.02em !important;
+            text-transform: none !important;
+        }
+        .nav-cta::after { display: none; }
+        .nav-cta:hover { background: #6b5ce7 !important; color: #fff !important; }
+
+        .mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; }
+
+        /* Hero */
+        #accueil {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 3rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.18;
+            animation: blobFloat 8s ease-in-out infinite;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--accent); top: -150px; right: -100px; animation-delay: 0s; }
+        .blob-2 { width: 400px; height: 400px; background: var(--accent2); bottom: -100px; left: 20%; animation-delay: -3s; }
+        .blob-3 { width: 300px; height: 300px; background: var(--accent3); top: 30%; left: -50px; animation-delay: -5s; }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Grid noise overlay */
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(124,106,247,0.12);
+            border: 1px solid rgba(124,106,247,0.25);
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.03em;
+        }
+        .hero-tag span { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 7.5rem);
+            font-weight: 800;
+            line-height: 0.92;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+        }
+
+        h1 .line { display: block; overflow: hidden; }
+        h1 .gradient-text {
+            background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin-bottom: 2.5rem;
+        }
+        .hero-desc strong { color: var(--text); font-weight: 500; }
+
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.25s;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-glow); background: #6b5ce7; }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.25s;
+        }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); background: rgba(255,255,255,0.04); }
+
+        .hero-socials {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 3.5rem;
+            align-items: center;
+        }
+        .hero-socials::before { content: ''; width: 40px; height: 1px; background: var(--border); }
+        .hero-socials a {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .hero-socials a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+        .scroll-hint i { animation: scrollBounce 2s infinite; font-size: 0.8rem; }
+        @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+        /* Section base */
+        section { padding: 7rem 3rem; }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* À propos */
+        #apropos { background: var(--surface); }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-left p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .about-left p strong { color: var(--text); font-weight: 500; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            transition: border-color 0.2s;
+        }
+        .info-card:hover { border-color: rgba(124,106,247,0.3); }
+        .info-card .label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        .info-card .value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .info-card .value a { color: var(--accent); text-decoration: none; }
+
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+        .about-right {}
+
+        .passion-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 1rem;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .passion-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(124,106,247,0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .passion-card:hover { border-color: rgba(124,106,247,0.25); transform: translateY(-2px); }
+        .passion-card:hover::before { opacity: 1; }
+        .passion-card .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .passion-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .passion-card p { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); }
+
+        /* Compétences */
+        #competences { background: var(--bg); }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .skill-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--skill-color, var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .skill-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-4px); }
+        .skill-card:hover::after { transform: scaleX(1); }
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .skill-card p { font-size: 0.78rem; color: var(--text-muted); }
+
+        .level-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+        .level-section h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .skill-bar-wrap { margin-bottom: 1.5rem; }
+        .skill-bar-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .skill-bar-pct { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+        .skill-track {
+            height: 4px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 1.2s cubic-bezier(.23,1,.32,1);
+        }
+        .skill-fill.animated { transform: scaleX(1); }
+
+        /* Parcours */
+        #parcours { background: var(--surface); }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 3rem 2.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .timeline-year {
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-title { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .timeline-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+        .timeline-desc { font-size: 0.92rem; line-height: 1.8; color: var(--text-muted); max-width: 560px; }
+        .timeline-badge {
+            display: inline-block;
+            background: rgba(67,232,216,0.1);
+            border: 1px solid rgba(67,232,216,0.25);
+            color: var(--accent3);
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.04em;
+        }
+
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .cert-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: all 0.25s;
+        }
+        .cert-card:hover { border-color: rgba(124,106,247,0.3); transform: translateY(-2px); }
+        .cert-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .cert-card h4 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .cert-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+        .cert-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+        .cert-tag {
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            color: var(--text-muted);
+        }
+
+        /* Projets */
+        #projets { background: var(--bg); }
+
+        .projects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.35s;
+            position: relative;
+        }
+        .project-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .project-card.featured { grid-column: span 2; }
+
+        .project-thumb {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card.featured .project-thumb { height: 220px; }
+        .project-thumb i { font-size: 3rem; opacity: 0.7; color: #fff; position: relative; z-index: 1; }
+        .project-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            z-index: 2;
+            letter-spacing: 0.04em;
+        }
+
+        .project-body { padding: 1.5rem; }
+        .project-body h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .project-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1rem; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+        .project-tag {
+            font-size: 0.72rem;
+            background: rgba(124,106,247,0.1);
+            border: 1px solid rgba(124,106,247,0.2);
+            color: var(--accent);
+            padding: 0.25rem 0.65rem;
+            border-radius: 100px;
+        }
+        .project-links { display: flex; gap: 0.7rem; }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            transition: all 0.2s;
+        }
+        .project-link.primary { background: var(--accent); color: #fff; }
+        .project-link.primary:hover { background: #6b5ce7; }
+        .project-link.ghost { border: 1px solid var(--border); color: var(--text-muted); }
+        .project-link.ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+        .github-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Contact */
+        #contact { background: var(--surface); }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h2 { margin-bottom: 1rem; }
+        .contact-info > p { font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 2.5rem; }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.1rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .contact-item:hover { border-color: rgba(124,106,247,0.3); transform: translateX(4px); }
+        .contact-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+        .contact-item .ci-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        .contact-item .ci-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+
+        .contact-socials { display: flex; gap: 0.7rem; margin-top: 2rem; }
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .social-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(124,106,247,0.08); }
+
+        .contact-form {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+        .contact-form h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.8rem; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem; letter-spacing: 0.04em; }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.93rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(139,138,153,0.5); }
+        .form-group input:focus,
+        .form-group textarea:focus { border-color: rgba(124,106,247,0.5); background: rgba(124,106,247,0.04); box-shadow: 0 0 0 3px rgba(124,106,247,0.1); }
+        .form-group textarea { resize: none; }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-submit:hover { background: #6b5ce7; transform: translateY(-1px); box-shadow: 0 8px 25px var(--accent-glow); }
+
+        /* Footer */
+        footer {
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        footer p { font-size: 0.85rem; color: var(--text-muted); }
+        footer a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        footer a:hover { color: var(--text); }
+
+        /* Success message */
+        .success-msg {
+            display: none;
+            background: rgba(67,232,216,0.1);
+            border: 1px solid rgba(67,232,216,0.25);
+            color: var(--accent3);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* Mobile menu */
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: 1rem;
+        }
+        .mobile-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.6rem 0;
+            transition: color 0.2s;
+        }
+        .mobile-nav a:hover { color: var(--text); }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            header { padding: 1.2rem 1.5rem; }
+            nav { display: none; }
+            .mobile-toggle { display: block; }
+            section { padding: 4rem 1.5rem; }
+            #accueil { padding: 7rem 1.5rem 4rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
+            .certs-grid { grid-template-columns: 1fr 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card.featured { grid-column: span 1; }
+            .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+            footer { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .stats-row { gap: 1rem; }
         }
     </style>
 </head>
-<body class="bg-gray-50 antialiased">
-    <!-- Navigation -->
-    <header class="fixed w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
-        <nav class="container mx-auto px-4 sm:px-6 py-4">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Ahnou Mehdi
-                </a>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#accueil" class="text-gray-700 hover:text-primary transition-colors font-medium">Accueil</a>
-                    <a href="#apropos" class="text-gray-700 hover:text-primary transition-colors font-medium">À propos</a>
-                    <a href="#competences" class="text-gray-700 hover:text-primary transition-colors font-medium">Compétences</a>
-                    <a href="#parcours" class="text-gray-700 hover:text-primary transition-colors font-medium">Parcours</a>
-                    <a href="#projets" class="text-gray-700 hover:text-primary transition-colors font-medium">Projets</a>
-                    <a href="#contact" class="text-gray-700 hover:text-primary transition-colors font-medium">Contact</a>
-                </div>
-                <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-primary">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3">
-                <a href="#accueil" class="block text-gray-700 hover:text-primary transition-colors font-medium">Accueil</a>
-                <a href="#apropos" class="block text-gray-700 hover:text-primary transition-colors font-medium">À propos</a>
-                <a href="#competences" class="block text-gray-700 hover:text-primary transition-colors font-medium">Compétences</a>
-                <a href="#parcours" class="block text-gray-700 hover:text-primary transition-colors font-medium">Parcours</a>
-                <a href="#projets" class="block text-gray-700 hover:text-primary transition-colors font-medium">Projets</a>
-                <a href="#contact" class="block text-gray-700 hover:text-primary transition-colors font-medium">Contact</a>
-            </div>
+<body>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#accueil" class="logo">Ahnou Mehdi</a>
+        <nav>
+            <a href="#apropos">À propos</a>
+            <a href="#competences">Compétences</a>
+            <a href="#parcours">Parcours</a>
+            <a href="#projets">Projets</a>
+            <a href="#contact" class="nav-cta">Me contacter</a>
         </nav>
+        <button class="mobile-toggle" id="menu-toggle" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="mobile-nav" id="mobile-nav">
+            <a href="#apropos">À propos</a>
+            <a href="#competences">Compétences</a>
+            <a href="#parcours">Parcours</a>
+            <a href="#projets">Projets</a>
+            <a href="#contact">Me contacter</a>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="accueil" class="min-h-screen gradient-bg flex items-center pt-20">
-        <div class="container mx-auto px-4 sm:px-6 py-20">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
-                <div class="md:w-1/2 text-white fade-in">
-                    <p class="text-lg mb-3 opacity-90">👋 Bonjour, je suis</p>
-                    <h1 class="text-5xl md:text-7xl font-bold mb-4">
-                        Ahnou Mehdi
-                    </h1>
-                    <h2 class="text-2xl font-semibold mb-6 text-white typing-cursor">
-                        Développeur Web
-                    </h2>
-                    <p class="text-xl mb-8 opacity-90 leading-relaxed">
-                        Étudiant passionné par le développement web au <span class="font-semibold">Lycée Simone Weil</span> à Saint-Priest-en-Jarez. 
-                        Je crée des expériences numériques modernes et innovantes avec les technologies web les plus récentes.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#contact" class="bg-accent text-white px-8 py-4 rounded-lg font-bold hover:bg-pink-600 transition-all transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-paper-plane mr-2"></i>Me contacter
-                        </a>
-                        <a href="#projets" class="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition-all border-2 border-white/30">
-                            <i class="fas fa-rocket mr-2"></i>Voir mes projets
-                        </a>
-                    </div>
-                    <div class="flex gap-4 mt-8">
-                        <a href="https://github.com/ahnoumehdi" target="_blank" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
-                            <i class="fab fa-linkedin-in text-xl"></i>
-                        </a>
-                        <a href="mailto:mehdiahnou@gmail.com" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all">
-                            <i class="fas fa-envelope text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="md:w-1/2 flex justify-center">
-                    <div class="relative">
-                        <div class="w-80 h-80 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center shadow-2xl">
-                            <div class="w-72 h-72 rounded-full bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center text-white">
-                                <i class="fas fa-code text-9xl opacity-90"></i>
-                            </div>
-                        </div>
-                        <div class="absolute -bottom-6 -right-6 bg-accent text-white px-6 py-3 rounded-full font-bold shadow-lg animate-pulse">
-                            <i class="fas fa-graduation-cap mr-2"></i>Étudiant
-                        </div>
-                        <div class="absolute -top-6 -left-6 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg">
-                            <i class="fas fa-laptop-code mr-2"></i>Dev Web
-                        </div>
-                    </div>
-                </div>
+    <!-- Hero -->
+    <section id="accueil">
+        <div class="hero-bg">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+        <div class="hero-inner">
+            <div class="hero-tag">
+                <span></span>Disponible pour des projets
             </div>
+            <h1>
+                <span class="line">Ahnou</span>
+                <span class="line gradient-text">Mehdi</span>
+            </h1>
+            <p class="hero-desc">
+                Développeur web passionné, étudiant en <strong>BTS SIO</strong> au Lycée Simone Weil. 
+                Je construis des interfaces modernes et des applications performantes avec les technologies web actuelles.
+            </p>
+            <div class="hero-actions">
+                <a href="#projets" class="btn-primary">
+                    <i class="fas fa-rocket"></i>Voir mes projets
+                </a>
+                <a href="#contact" class="btn-ghost">
+                    <i class="fas fa-paper-plane"></i>Me contacter
+                </a>
+            </div>
+            <div class="hero-socials">
+                <a href="https://github.com/ahnoumehdi" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:mehdiahnou@gmail.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Défiler</span>
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
     <!-- À propos -->
-    <section id="apropos" class="py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">À propos de moi</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto"></div>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <div class="bg-gradient-to-br from-primary/5 to-secondary/5 p-8 rounded-2xl border border-primary/10">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-user-graduate text-primary mr-3"></i>
-                            Qui suis-je ?
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-lg">
-                            Je suis <span class="font-bold text-primary">Ahnou Mehdi</span>, un développeur web passionné et étudiant au 
-                            <span class="font-bold text-secondary">Lycée Simone Weil</span> situé à Saint-Priest-en-Jarez (42270). 
-                            Ma passion pour le code et les technologies web m'anime au quotidien.
-                        </p>
+    <section id="apropos">
+        <div class="container reveal">
+            <p class="section-label">Qui suis-je</p>
+            <h2>Passionné de code<br>et d'innovation</h2>
+
+            <div class="about-grid">
+                <div class="about-left">
+                    <p>
+                        Je suis <strong>Ahnou Mehdi</strong>, développeur web en formation au <strong>Lycée Simone Weil</strong> 
+                        à Saint-Priest-en-Jarez. Le développement web est pour moi bien plus qu'une discipline — c'est une façon de 
+                        transformer des idées en expériences concrètes et accessibles.
+                    </p>
+                    <p>
+                        J'aspire à maîtriser l'intégralité de la chaîne de développement, du design de l'interface jusqu'à 
+                        l'architecture serveur. Mon apprentissage est constant et j'aime relever des défis techniques qui me poussent 
+                        à évoluer.
+                    </p>
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="label">Localisation</div>
+                            <div class="value">Saint-Genest-Lerpt, Loire</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="label">Formation</div>
+                            <div class="value">BTS SIO — Lycée Simone Weil</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="label">Email</div>
+                            <div class="value"><a href="mailto:mehdiahnou@gmail.com">mehdiahnou@gmail.com</a></div>
+                        </div>
+                        <div class="info-card">
+                            <div class="label">Téléphone</div>
+                            <div class="value"><a href="tel:+33634399056">+33 6 34 39 90 56</a></div>
+                        </div>
                     </div>
 
-                    <div class="bg-gradient-to-br from-accent/5 to-pink-500/5 p-8 rounded-2xl border border-accent/10">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-rocket text-accent mr-3"></i>
-                            Ma vision
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-lg">
-                            J'aspire à devenir un développeur web complet, capable de créer des applications modernes, 
-                            performantes et accessibles. Je crois en l'apprentissage continu et j'aime relever de nouveaux défis techniques.
-                        </p>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-green-500/5 to-emerald-500/5 p-8 rounded-2xl border border-green-500/10">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-heart text-red-500 mr-3"></i>
-                            Mes passions
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-lg">
-                            Au-delà du développement, je suis fasciné par l'intelligence artificielle, le design UI/UX, 
-                            et les nouvelles technologies. J'aime explorer de nouveaux frameworks et contribuer à des projets open source.
-                        </p>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-num">10+</div>
+                            <div class="stat-label">Projets réalisés</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-num">5+</div>
+                            <div class="stat-label">Certifications</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-num">2+</div>
+                            <div class="stat-label">Années d'expérience</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-gray-50 p-8 rounded-2xl shadow-lg">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Informations</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i class="fas fa-map-marker-alt text-primary text-xl mr-4 mt-1"></i>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Localisation</p>
-                                    <p class="text-gray-600">Saint-Genest-Lerpt, Loire (42)</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-school text-secondary text-xl mr-4 mt-1"></i>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Établissement</p>
-                                    <p class="text-gray-600">Lycée Simone Weil</p>
-                                    <p class="text-sm text-gray-500">42270 Saint-Priest-en-Jarez</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-code text-accent text-xl mr-4 mt-1"></i>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Spécialisation</p>
-                                    <p class="text-gray-600">Développement Web Full Stack</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-envelope text-green-600 text-xl mr-4 mt-1"></i>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Email</p>
-                                    <p class="text-gray-600">mehdiahnou@gmail.com</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-phone text-blue-600 text-xl mr-4 mt-1"></i>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Téléphone</p>
-                                    <p class="text-gray-600">+33 6 34 39 90 56</p>
-                                </div>
-                            </div>
+                <div class="about-right">
+                    <div class="passion-card">
+                        <div class="icon" style="background:rgba(124,106,247,0.15);color:var(--accent)">
+                            <i class="fas fa-code"></i>
                         </div>
+                        <h3>Développement Full Stack</h3>
+                        <p>De HTML/CSS à React, Node.js et PHP, j'explore l'ensemble de la stack pour créer des applications complètes et robustes.</p>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-primary/10 p-6 rounded-xl text-center">
-                            <i class="fas fa-project-diagram text-primary text-3xl mb-2"></i>
-                            <p class="text-3xl font-bold text-gray-800">10+</p>
-                            <p class="text-gray-600 font-medium">Projets</p>
+                    <div class="passion-card">
+                        <div class="icon" style="background:rgba(240,98,146,0.15);color:var(--accent2)">
+                            <i class="fas fa-palette"></i>
                         </div>
-                        <div class="bg-accent/10 p-6 rounded-xl text-center">
-                            <i class="fas fa-certificate text-accent text-3xl mb-2"></i>
-                            <p class="text-3xl font-bold text-gray-800">5+</p>
-                            <p class="text-gray-600 font-medium">Certifications</p>
+                        <h3>Design & UI/UX</h3>
+                        <p>Je crois que le code beau va de pair avec le design soigné. Je prête une attention particulière à l'expérience utilisateur et à l'accessibilité.</p>
+                    </div>
+                    <div class="passion-card">
+                        <div class="icon" style="background:rgba(67,232,216,0.15);color:var(--accent3)">
+                            <i class="fas fa-robot"></i>
                         </div>
+                        <h3>Intelligence Artificielle</h3>
+                        <p>Fasciné par l'IA générative et ses applications dans le développement web, je cherche à intégrer ces technologies dans mes projets.</p>
                     </div>
                 </div>
             </div>
@@ -258,554 +1019,354 @@
     </section>
 
     <!-- Compétences -->
-    <section id="competences" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mes Compétences</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4"></div>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Technologies et outils que je maîtrise pour créer des applications web modernes et performantes
-                </p>
-            </div>
+    <section id="competences">
+        <div class="container reveal">
+            <p class="section-label">Savoir-faire</p>
+            <h2>Mes compétences<br>techniques</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-orange-500">
-                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-html5 text-orange-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">HTML5</h3>
-                    <p class="text-gray-600 text-center text-sm">Structure sémantique et accessible</p>
+            <div class="skills-grid" style="margin-top:2.5rem">
+                <div class="skill-card" style="--skill-color:#e34c26">
+                    <span class="skill-icon">🟧</span>
+                    <h3>HTML5</h3>
+                    <p>Sémantique & accessibilité</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-blue-500">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-css3-alt text-blue-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">CSS3</h3>
-                    <p class="text-gray-600 text-center text-sm">Design responsive et animations</p>
+                <div class="skill-card" style="--skill-color:#2965f1">
+                    <span class="skill-icon">🟦</span>
+                    <h3>CSS3</h3>
+                    <p>Animations & responsive</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-yellow-500">
-                    <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-js text-yellow-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">JavaScript</h3>
-                    <p class="text-gray-600 text-center text-sm">Interactivité et dynamisme</p>
+                <div class="skill-card" style="--skill-color:#f0db4f">
+                    <span class="skill-icon">⚡</span>
+                    <h3>JavaScript</h3>
+                    <p>ES6+ & interactivité</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-cyan-500">
-                    <div class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-react text-cyan-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">React</h3>
-                    <p class="text-gray-600 text-center text-sm">Interfaces utilisateur modernes</p>
+                <div class="skill-card" style="--skill-color:#61dafb">
+                    <span class="skill-icon">⚛️</span>
+                    <h3>React</h3>
+                    <p>Composants & hooks</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-green-600">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-node-js text-green-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Node.js</h3>
-                    <p class="text-gray-600 text-center text-sm">Backend JavaScript</p>
+                <div class="skill-card" style="--skill-color:#68a063">
+                    <span class="skill-icon">🟩</span>
+                    <h3>Node.js</h3>
+                    <p>Backend JavaScript</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-indigo-500">
-                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-php text-indigo-600 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">PHP</h3>
-                    <p class="text-gray-600 text-center text-sm">Développement serveur</p>
+                <div class="skill-card" style="--skill-color:#8892be">
+                    <span class="skill-icon">🐘</span>
+                    <h3>PHP</h3>
+                    <p>Développement serveur</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-blue-700">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-database text-blue-700 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">MySQL</h3>
-                    <p class="text-gray-600 text-center text-sm">Bases de données relationnelles</p>
+                <div class="skill-card" style="--skill-color:#00758f">
+                    <span class="skill-icon">🗄️</span>
+                    <h3>MySQL</h3>
+                    <p>Bases de données</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-gray-800">
-                    <div class="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-github text-gray-800 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Git & GitHub</h3>
-                    <p class="text-gray-600 text-center text-sm">Gestion de versions</p>
+                <div class="skill-card" style="--skill-color:#f05032">
+                    <span class="skill-icon">📦</span>
+                    <h3>Git & GitHub</h3>
+                    <p>Gestion de versions</p>
                 </div>
             </div>
 
-            <!-- Barres de compétences -->
-            <div class="bg-white p-8 rounded-2xl shadow-lg">
-                <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Niveau de maîtrise</h3>
-                <div class="space-y-6">
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-gray-800">HTML/CSS</span>
-                            <span class="text-primary font-bold">90%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 90%"></div>
-                        </div>
+            <div class="level-section">
+                <h3>Niveau de maîtrise</h3>
+                <div class="skill-bar-wrap">
+                    <div class="skill-bar-header">
+                        <span>HTML / CSS</span><span class="skill-bar-pct">90%</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-gray-800">JavaScript</span>
-                            <span class="text-yellow-600 font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full skill-bar" style="width: 85%"></div>
-                        </div>
+                    <div class="skill-track"><div class="skill-fill" data-pct="0.90"></div></div>
+                </div>
+                <div class="skill-bar-wrap">
+                    <div class="skill-bar-header">
+                        <span>JavaScript</span><span class="skill-bar-pct">85%</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-gray-800">React</span>
-                            <span class="text-cyan-600 font-bold">75%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 h-3 rounded-full skill-bar" style="width: 75%"></div>
-                        </div>
+                    <div class="skill-track"><div class="skill-fill" data-pct="0.85"></div></div>
+                </div>
+                <div class="skill-bar-wrap">
+                    <div class="skill-bar-header">
+                        <span>Bases de données</span><span class="skill-bar-pct">80%</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-gray-800">Node.js & PHP</span>
-                            <span class="text-green-600 font-bold">70%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full skill-bar" style="width: 70%"></div>
-                        </div>
+                    <div class="skill-track"><div class="skill-fill" data-pct="0.80"></div></div>
+                </div>
+                <div class="skill-bar-wrap">
+                    <div class="skill-bar-header">
+                        <span>React</span><span class="skill-bar-pct">75%</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-gray-800">Bases de données</span>
-                            <span class="text-indigo-600 font-bold">80%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 h-3 rounded-full skill-bar" style="width: 80%"></div>
-                        </div>
+                    <div class="skill-track"><div class="skill-fill" data-pct="0.75"></div></div>
+                </div>
+                <div class="skill-bar-wrap" style="margin-bottom:0">
+                    <div class="skill-bar-header">
+                        <span>Node.js / PHP</span><span class="skill-bar-pct">70%</span>
                     </div>
+                    <div class="skill-track"><div class="skill-fill" data-pct="0.70"></div></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Parcours -->
-    <section id="parcours" class="py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mon Parcours</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4"></div>
-                <p class="text-gray-600 text-lg">Formation et certifications</p>
+    <section id="parcours">
+        <div class="container reveal">
+            <p class="section-label">Expérience & formation</p>
+            <h2>Mon parcours</h2>
+
+            <div class="timeline" style="margin-top:3rem">
+                <div class="timeline-item">
+                    <div class="timeline-year">2023 — présent</div>
+                    <span class="timeline-badge">En cours ✓</span>
+                    <div class="timeline-title">BTS SIO — Lycée Simone Weil</div>
+                    <div class="timeline-sub">Service Informatique aux Organisations · Saint-Priest-en-Jarez (42270)</div>
+                    <p class="timeline-desc">
+                        Formation complète couvrant le développement web front-end et back-end, les bases de données, 
+                        la gestion de projets informatiques et les bonnes pratiques professionnelles. Réalisation de projets concrets 
+                        intégrant HTML, CSS, JavaScript, React, PHP, MySQL et Git.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">Autodidacte — en continu</div>
+                    <div class="timeline-title">Formations & certifications en ligne</div>
+                    <div class="timeline-sub">freeCodeCamp · OpenClassrooms · GitHub</div>
+                    <p class="timeline-desc">
+                        Apprentissage autonome via les meilleures plateformes mondiales. Obtention de plusieurs certifications 
+                        reconnues et développement de projets personnels pour consolider les acquis.
+                    </p>
+                </div>
             </div>
 
-            <div class="max-w-4xl mx-auto">
-                <!-- Formation actuelle -->
-                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 p-8 rounded-2xl shadow-lg mb-8 border border-primary/10">
-                    <div class="flex items-start gap-6">
-                        <div class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-graduation-cap text-2xl"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex flex-wrap items-center gap-3 mb-3">
-                                <h3 class="text-2xl font-bold text-gray-800">Lycée Simone Weil</h3>
-                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">En cours</span>
-                            </div>
-                            <p class="text-lg text-gray-700 font-semibold mb-2">BTS SIO (Service informatique et Organisation) </p>
-                            <p class="text-gray-600 mb-3">
-                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
-                                42270 Saint-Priest-en-Jarez
-                            </p>
-                            <p class="text-gray-700 leading-relaxed">
-                                Formation complète en développement web couvrant les technologies frontend et backend, 
-                                les bases de données, et les bonnes pratiques de développement. Apprentissage de HTML, CSS, 
-                                JavaScript, React, PHP, et MySQL à travers des projets concrets.
-                            </p>
-                        </div>
+            <div class="certs-grid" style="margin-top:2.5rem">
+                <div class="cert-card">
+                    <div class="cert-logo" style="background:rgba(30,30,30,0.8);color:#fff">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h4>GitHub</h4>
+                    <p>Gestion de versions, collaboration et open source</p>
+                    <div class="cert-tags">
+                        <span class="cert-tag">Git</span>
+                        <span class="cert-tag">CI/CD</span>
+                        <span class="cert-tag">Open Source</span>
                     </div>
                 </div>
-
-      <!-- Certifications -->
-                <h3 class="text-2xl font-bold text-gray-800 mb-6">Certifications & Formations en ligne</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-gray-800">
-                        <div class="text-center">
-                            <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fab fa-github text-gray-800 text-3xl"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-2">GitHub</h4>
-                            <p class="text-gray-600 text-sm mb-3">Gestion de versions et collaboration</p>
-                            <div class="bg-gray-50 p-3 rounded-lg mb-4">
-                                <p class="text-xs font-semibold text-gray-700 mb-2">Compétences :</p>
-                                <div class="space-y-1">
-                                    <p class="text-xs text-gray-600">✓ Git & Version Control</p>
-                                    <p class="text-xs text-gray-600">✓ Collaboration en équipe</p>
-                                    <p class="text-xs text-gray-600">✓ Open Source</p>
-                                </div>
-                            </div>
-                            <a href="https://github.com/ahnoumehdi" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
-                                Voir le profil <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
+                <div class="cert-card">
+                    <div class="cert-logo" style="background:rgba(93,63,211,0.15);color:#7c6af7">
+                        <i class="fas fa-graduation-cap"></i>
                     </div>
-
-                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-purple-600">
-                        <div class="text-center">
-                            <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-graduation-cap text-purple-600 text-3xl"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-2">OpenClassrooms</h4>
-                            <p class="text-gray-600 text-sm mb-3">Plateforme de formation en ligne</p>
-                            <div class="bg-purple-50 p-3 rounded-lg mb-4">
-                                <p class="text-xs font-semibold text-gray-700 mb-2">Formations complétées :</p>
-                                <div class="space-y-1">
-                                    <p class="text-xs text-gray-600">✓ Développeur Web</p>
-                                    <p class="text-xs text-gray-600">✓ JavaScript & React</p>
-                                    <p class="text-xs text-gray-600">✓ Créez votre site web</p>
-                                </div>
-                            </div>
-                            <a href="https://openclassrooms.com" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
-                                Voir le profil <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-xl shadow-md card-hover border-t-4 border-green-600 md:col-span-2">
-                        <div class="text-center">
-                            <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-code text-green-600 text-3xl"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-2">freeCodeCamp</h4>
-                            <p class="text-gray-600 text-sm mb-3">Certifications en développement web</p>
-                            <div class="bg-green-50 p-4 rounded-lg mb-4 max-w-2xl mx-auto">
-                                <p class="text-xs font-semibold text-gray-700 mb-3">Certifications obtenues :</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    <p class="text-xs text-gray-600">✓ Responsive Web Design</p>
-                                    <p class="text-xs text-gray-600">✓ JavaScript Algorithms</p>
-                                    <p class="text-xs text-gray-600">✓ Front End Development</p>
-                                    <p class="text-xs text-gray-600">✓ Data Visualization</p>
-                                </div>
-                            </div>
-                            <a href="https://freecodecamp.org" target="_blank" class="text-primary hover:text-secondary font-semibold text-sm">
-                                Voir les certifications <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
+                    <h4>OpenClassrooms</h4>
+                    <p>Développement web, JavaScript & React</p>
+                    <div class="cert-tags">
+                        <span class="cert-tag">React</span>
+                        <span class="cert-tag">JS</span>
+                        <span class="cert-tag">Web</span>
                     </div>
                 </div>
+                <div class="cert-card">
+                    <div class="cert-logo" style="background:rgba(0,128,0,0.1);color:#4CAF50">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>freeCodeCamp</h4>
+                    <p>4 certifications: Web Design, JS, Frontend, Data Viz</p>
+                    <div class="cert-tags">
+                        <span class="cert-tag">HTML/CSS</span>
+                        <span class="cert-tag">JS</span>
+                        <span class="cert-tag">D3.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Projets -->
-    <section id="projets" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Mes Projets</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4"></div>
-                <p class="text-gray-600 text-lg">Découvrez mes réalisations et projets web</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Projet 1 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                        <i class="fas fa-tools text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">Projet Pro</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">TP Accessibilité</h3>
-                        <p class="text-gray-600 mb-4">
-                            Personnalisation et intégration d'une solution GLPI pour la gestion de parc informatique et helpdesk.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">PHP</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">MySQL</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">JavaScript</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
+    <section id="projets">
+        <div class="container reveal">
+            <div class="projects-header">
+                <div>
+                    <p class="section-label">Réalisations</p>
+                    <h2>Mes projets</h2>
                 </div>
-
-                <!-- Projet 2 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                        <i class="fas fa-shopping-cart text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">IA générative</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Site IA générative </h3>
-                        <p class="text-gray-600 mb-4">
-                         Application qui a été fait grâce à l'intelligence artificielle.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-xs font-semibold">React</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Node.js</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">MongoDB</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Projet 3 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-                        <i class="fas fa-blog text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">Blog</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Laravel</h3>
-                        <p class="text-gray-600 mb-4">
-                            Application avec fonctionnalités complexes(fonctionnement en local).
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-semibold">PHP</span>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">MySQL</span>
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">Bootstrap</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Projet 4 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
-                        <i class="fas fa-tasks text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">Productivité</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Todo App</h3>
-                        <p class="text-gray-600 mb-4">
-                            Application de gestion de tâches avec drag & drop, filtres et synchronisation temps réel.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-xs font-semibold">React</span>
-                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">Firebase</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">Tailwind</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Projet 5 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
-                        <i class="fas fa-chart-line text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">Dashboard</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Analytics Dashboard</h3>
-                        <p class="text-gray-600 mb-4">
-                            Tableau de bord analytique avec graphiques interactifs et visualisation de données.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">Vue.js</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Chart.js</span>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">API REST</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Projet 6 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="relative h-48 bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center">
-                        <i class="fas fa-palette text-white text-6xl"></i>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                            <span class="text-sm font-bold text-gray-800">Portfolio</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Portfolio Design</h3>
-                        <p class="text-gray-600 mb-4">
-                            Site portfolio créatif avec animations fluides et design moderne pour présenter mes projets.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">HTML</span>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">CSS</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">JavaScript</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded-lg hover:bg-secondary transition-colors font-semibold">
-                                <i class="fas fa-eye mr-2"></i>Détails
-                            </a>
-                            <a href="#" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <a href="https://github.com" target="_blank" class="inline-flex items-center bg-gray-900 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-800 transition-all shadow-lg">
-                    <i class="fab fa-github text-2xl mr-3"></i>
-                    Voir tous mes projets sur GitHub
+                <a href="https://github.com/ahnoumehdi" target="_blank" class="btn-ghost" style="align-self:flex-end">
+                    <i class="fab fa-github"></i>Voir GitHub
                 </a>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Featured -->
+                <div class="project-card featured">
+                    <div class="project-thumb" style="background: linear-gradient(135deg, #4a1fa8, #7c6af7)">
+                        <i class="fas fa-robot"></i>
+                        <span class="project-badge">IA générative</span>
+                    </div>
+                    <div class="project-body">
+                        <h3>Site IA Générative</h3>
+                        <p>Application web conçue avec l'intelligence artificielle — intégration d'API IA, interface moderne et fonctionnalités avancées de génération de contenu.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                            <span class="project-tag">API IA</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link primary"><i class="fas fa-eye"></i>Voir le projet</a>
+                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i>Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Normal -->
+                <div class="project-card">
+                    <div class="project-thumb" style="background: linear-gradient(135deg, #1565c0, #42a5f5)">
+                        <i class="fas fa-tools"></i>
+                        <span class="project-badge">Pro</span>
+                    </div>
+                    <div class="project-body">
+                        <h3>TP Accessibilité</h3>
+                        <p>Personnalisation d'une solution GLPI pour la gestion de parc informatique et helpdesk.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">PHP</span>
+                            <span class="project-tag">MySQL</span>
+                            <span class="project-tag">JS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link primary"><i class="fas fa-eye"></i>Détails</a>
+                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-thumb" style="background: linear-gradient(135deg, #b71c1c, #ef5350)">
+                        <i class="fab fa-laravel"></i>
+                        <span class="project-badge">Laravel</span>
+                    </div>
+                    <div class="project-body">
+                        <h3>App Laravel</h3>
+                        <p>Application avec fonctionnalités complexes et architecture MVC en PHP Laravel.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Laravel</span>
+                            <span class="project-tag">MySQL</span>
+                            <span class="project-tag">Bootstrap</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link primary"><i class="fas fa-eye"></i>Détails</a>
+                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-thumb" style="background: linear-gradient(135deg, #00897b, #26a69a)">
+                        <i class="fas fa-tasks"></i>
+                        <span class="project-badge">Productivité</span>
+                    </div>
+                    <div class="project-body">
+                        <h3>Todo App</h3>
+                        <p>Gestion de tâches avec drag & drop, filtres et synchronisation en temps réel.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Firebase</span>
+                            <span class="project-tag">Tailwind</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link primary"><i class="fas fa-eye"></i>Détails</a>
+                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-thumb" style="background: linear-gradient(135deg, #e65100, #ffa726)">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="project-badge">Dashboard</span>
+                    </div>
+                    <div class="project-body">
+                        <h3>Analytics Dashboard</h3>
+                        <p>Tableau de bord analytique avec graphiques interactifs et visualisation de données.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Vue.js</span>
+                            <span class="project-tag">Chart.js</span>
+                            <span class="project-tag">REST API</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link primary"><i class="fas fa-eye"></i>Détails</a>
+                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Contactez-moi</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4"></div>
-                <p class="text-gray-300 text-lg">Une question ? Un projet ? N'hésitez pas à me contacter !</p>
-            </div>
+    <section id="contact">
+        <div class="container reveal">
+            <p class="section-label">Contact</p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                <!-- Informations de contact -->
-                <div class="space-y-8">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4">Discutons de votre projet</h3>
-                        <p class="text-gray-300 leading-relaxed text-lg mb-6">
-                            Que vous ayez une idée de projet, une question sur mes compétences, ou simplement envie d'échanger 
-                            sur le développement web, je serais ravi de vous répondre rapidement.
-                        </p>
-                    </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2>Discutons de<br>votre projet</h2>
+                    <p>Une question, une idée ou une opportunité ? Je suis disponible et répondrai rapidement à tout message.</p>
 
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
-                            <div class="bg-accent w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-envelope text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm mb-1">Email</p>
-                                <a href="mailto:mehdiahnou@gmail.com" class="text-white font-semibold text-lg hover:text-accent transition-colors">
-                                    mehdiahnou@gmail.com
-                                </a>
-                            </div>
+                    <a href="mailto:mehdiahnou@gmail.com" class="contact-item">
+                        <div class="contact-icon" style="background:rgba(240,98,146,0.12);color:var(--accent2)">
+                            <i class="fas fa-envelope"></i>
                         </div>
-
-                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
-                            <div class="bg-primary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-phone text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm mb-1">Téléphone</p>
-                                <a href="tel:+33634399056" class="text-white font-semibold text-lg hover:text-primary transition-colors">
-                                    +33 6 34 39 90 56
-                                </a>
-                            </div>
+                        <div>
+                            <div class="ci-label">Email</div>
+                            <div class="ci-value">mehdiahnou@gmail.com</div>
                         </div>
-
-                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all">
-                            <div class="bg-secondary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-map-marker-alt text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm mb-1">Localisation</p>
-                                <p class="text-white font-semibold text-lg">
-                                    Saint-Genest-en-Lerpt, Loire (42)
-                                </p>
-                            </div>
+                    </a>
+                    <a href="tel:+33634399056" class="contact-item" style="text-decoration:none">
+                        <div class="contact-icon" style="background:rgba(124,106,247,0.12);color:var(--accent)">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <div class="ci-label">Téléphone</div>
+                            <div class="ci-value">+33 6 34 39 90 56</div>
+                        </div>
+                    </a>
+                    <div class="contact-item" style="cursor:default">
+                        <div class="contact-icon" style="background:rgba(67,232,216,0.12);color:var(--accent3)">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <div class="ci-label">Localisation</div>
+                            <div class="ci-value">Saint-Genest-Lerpt, Loire (42)</div>
                         </div>
                     </div>
 
-                    <div class="pt-6">
-                        <p class="text-gray-400 mb-4">Retrouvez-moi sur :</p>
-                        <div class="flex gap-4">
-                            <a href="https://github.com/Mehdi-The-Dark-42" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
-                                <i class="fab fa-github text-2xl"></i>
-                            </a>
-                            <a href="https://linkedin.com" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
-                                <i class="fab fa-linkedin-in text-2xl"></i>
-                            </a>
-                            <a href="https://twitter.com" target="_blank" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
-                                <i class="fab fa-twitter text-2xl"></i>
-                            </a>
-                            <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=GTvVlcRwRCcVJDwkTRqkBHRgrgMrsjWtRQRmttdfjlFfDHbfCsRkzqgqxMSwmFCpxwNdTDkDQmHZC" class="bg-white/10 hover:bg-white/20 w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110">
-                                <i class="fas fa-envelope text-2xl"></i>
-                            </a>
-                        </div>
+                    <div class="contact-socials">
+                        <a href="https://github.com/ahnoumehdi" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://twitter.com" target="_blank" class="social-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:mehdiahnou@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
 
-                <!-- Formulaire de contact -->
-                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
-                    <h3 class="text-2xl font-bold mb-6">Envoyez-moi un message</h3>
-                    <form id="contact-form" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Nom complet *</label>
-                                <input 
-                                    type="text" 
-                                    required
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
-                                    placeholder="Votre nom">
+                <div class="contact-form">
+                    <h3>Envoyez un message</h3>
+                    <form id="contact-form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nom complet</label>
+                                <input type="text" placeholder="Votre nom" required>
                             </div>
-                            <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Email *</label>
-                                <input 
-                                    type="email" 
-                                    required
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
-                                    placeholder="votre@email.com">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="votre@email.com" required>
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Sujet *</label>
-                            <input 
-                                type="text" 
-                                required
-                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all" 
-                                placeholder="Sujet de votre message">
+                        <div class="form-group">
+                            <label>Sujet</label>
+                            <input type="text" placeholder="Objet de votre message" required>
                         </div>
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Message *</label>
-                            <textarea 
-                                rows="5" 
-                                required
-                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 transition-all resize-none" 
-                                placeholder="Décrivez votre projet ou votre question..."></textarea>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea>
                         </div>
-                        <button 
-                            type="submit" 
-                            class="w-full bg-gradient-to-r from-accent to-pink-600 text-white py-4 rounded-lg font-bold hover:from-pink-500 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Envoyer le message
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i>Envoyer le message
                         </button>
+                        <div class="success-msg" id="success-msg">
+                            ✅ Message envoyé ! Je vous répondrai très bientôt.
+                        </div>
                     </form>
                 </div>
             </div>
@@ -813,65 +1374,109 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 py-8">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="text-gray-400">
-                    <p>&copy; 2025 Ahnou Mehdi. Tous droits réservés.</p>
-                </div>
-                <div class="flex gap-6 text-sm">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Confidentialité</a>
-                </div>
-                <div class="text-gray-400 text-sm">
-                    <p>Fait avec <i class="fas fa-heart text-red-500"></i> par Mehdi</p>
-                </div>
-            </div>
+    <footer>
+        <p>© 2025 Ahnou Mehdi — Tous droits réservés</p>
+        <div style="display:flex;gap:2rem">
+            <a href="#">Mentions légales</a>
+            <a href="#">Confidentialité</a>
         </div>
+        <p>Fait avec <i class="fas fa-heart" style="color:var(--accent2)"></i> par Mehdi</p>
     </footer>
 
     <script>
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+
+        function animRing() {
+            rx += (mx - rx) * 0.15;
+            ry += (my - ry) * 0.15;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animRing);
+        }
+        animRing();
+
+        document.querySelectorAll('a, button, .skill-card, .project-card').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
+            el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; });
+        });
+
+        // Mobile menu
+        const toggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        let menuOpen = false;
+
+        toggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileNav.style.display = menuOpen ? 'flex' : 'none';
+            toggle.innerHTML = menuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
         // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Fermer le menu mobile si ouvert
-                    document.getElementById('mobile-menu').classList.add('hidden');
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    if (menuOpen) { mobileNav.style.display = 'none'; menuOpen = false; toggle.innerHTML = '<i class="fas fa-bars"></i>'; }
                 }
             });
         });
 
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        reveals.forEach(r => revealObs.observe(r));
+
+        // Skill bars
+        const skillFills = document.querySelectorAll('.skill-fill');
+        const barObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const pct = parseFloat(e.target.dataset.pct);
+                    e.target.style.width = (pct * 100) + '%';
+                    e.target.classList.add('animated');
+                    barObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        skillFills.forEach(fill => {
+            fill.style.width = '0%';
+            barObs.observe(fill);
         });
 
-        // Form submission
+        // Contact form
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('✅ Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.');
-            this.reset();
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
+                btn.disabled = false;
+                document.getElementById('success-msg').style.display = 'block';
+                this.reset();
+                setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
+            }, 1500);
         });
 
-        // Animation au scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            header.style.borderBottomColor = window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)';
         });
     </script>
 </body>
+</html>
