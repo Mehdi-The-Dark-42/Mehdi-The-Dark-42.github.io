@@ -1356,26 +1356,29 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Nom complet</label>
-                                <input type="text" placeholder="Votre nom" required>
+                                <input type="text" name="from_name" placeholder="Votre nom" required>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" placeholder="votre@email.com" required>
+                                <input type="email" name="from_email" placeholder="votre@email.com" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Sujet</label>
-                            <input type="text" placeholder="Objet de votre message" required>
+                            <input type="text" name="subject" placeholder="Objet de votre message" required>
                         </div>
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea>
+                            <textarea name="message" rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea>
                         </div>
                         <button type="submit" class="btn-submit">
                             <i class="fas fa-paper-plane"></i>Envoyer le message
                         </button>
                         <div class="success-msg" id="success-msg">
                             ✅ Message envoyé ! Je vous répondrai très bientôt.
+                        </div>
+                        <div class="success-msg" id="error-msg" style="background:rgba(255,0,0,0.1);border-color:rgba(255,0,0,0.25);color:#e74c3c;display:none;">
+                            ❌ Une erreur est survenue. Merci de réessayer.
                         </div>
                     </form>
                 </div>
@@ -1393,8 +1396,14 @@
         <p>Fait avec <i class="fas fa-heart" style="color:var(--accent2)"></i> par Mehdi</p>
     </footer>
 
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
     <script>
         // Cursor
+        // initialize EmailJS (replace YOUR_USER_ID with the one you get from the EmailJS dashboard)
+        emailjs.init('YOUR_USER_ID');
+
+        
         const cursor = document.getElementById('cursor');
         const ring = document.getElementById('cursor-ring');
         let mx = 0, my = 0, rx = 0, ry = 0;
@@ -1468,34 +1477,40 @@
         });
 
         // Contact form
-      // Remplace le bloc contact form dans ton <script>
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('.btn-submit');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
-    btn.disabled = true;
+        // gather configuration (replace service_xxx and template_xxx with your EmailJS values)
+        const serviceID = 'service_xxx';
+        const templateID = 'template_xxx';
 
-    emailjs.send('to_email', 'from_name', 'from_email', 'subject', 'message', {
-    from_name: this.querySelector('[name="from_name"]').value,
-    from_email: this.querySelector('[name="from_email"]').value,
-    subject: this.querySelector('[name="subject"]').value,
-    message: this.querySelector('[name="message"]').value,
-    to_email: 'mehdiahnou@gmail.com'
-})
-        .then(() => {
-            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
-            btn.disabled = false;
-            document.getElementById('success-msg').style.display = 'block';
-            document.getElementById('error-msg').style.display = 'none';
-            this.reset();
-            setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
-        })
-        .catch(() => {
-            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
-            btn.disabled = false;
-            document.getElementById('error-msg').style.display = 'block';
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
+            btn.disabled = true;
+
+            const templateParams = {
+                from_name: this.querySelector('[name="from_name"]').value,
+                from_email: this.querySelector('[name="from_email"]').value,
+                subject: this.querySelector('[name="subject"]').value,
+                message: this.querySelector('[name="message"]').value,
+                to_email: 'mehdiahnou@gmail.com'
+            };
+
+            emailjs.send(serviceID, templateID, templateParams)
+                .then(() => {
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
+                    btn.disabled = false;
+                    document.getElementById('success-msg').style.display = 'block';
+                    document.getElementById('error-msg').style.display = 'none';
+                    this.reset();
+                    setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
+                })
+                .catch(() => {
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
+                    btn.disabled = false;
+                    document.getElementById('error-msg').style.display = 'block';
+                });
         });
-});
+
 
         // Header scroll effect
         const header = document.querySelector('header');
