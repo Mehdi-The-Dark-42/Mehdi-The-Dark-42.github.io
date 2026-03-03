@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire de tâches</title>
+    <meta name="description" content="Application de gestion de tâches avec priorités, dates et mode sombre">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: "#6366f1",
+                            dark: "#818cf8"
+                        },
+                        danger: {
+                            light: "#ef4444",
+                            dark: "#f87171"
+                        },
+                        success: {
+                            light: "#10b981",
+                            dark: "#34d399"
+                        },
+                        warning: {
+                            light: "#f59e0b",
+                            dark: "#fbbf24"
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .priority-high { background-color: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; }
+        .priority-medium { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; }
+        .priority-low { background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; }
+        .dark .priority-high { background-color: rgba(239, 68, 68, 0.2); }
+        .dark .priority-medium { background-color: rgba(59, 130, 246, 0.2); }
+        .dark .priority-low { background-color: rgba(16, 185, 129, 0.2); }
+        .task-item { transition: all 0.3s ease; }
+        .task-item-enter { opacity: 0; transform: translateY(20px); }
+        .task-item-enter-active { opacity: 1; transform: translateY(0); }
+        .task-item-exit { opacity: 1; transform: translateY(0); }
+        .task-item-exit-active { opacity: 0; transform: translateY(-20px); }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestionnaire de tâches</h1>
+            <button id="theme-toggle" class="p-2 rounded-full bg-white dark:bg-gray-700 shadow-md">
+                <i class="fas fa-moon dark:hidden text-gray-700"></i>
+                <i class="fas fa-sun hidden dark:inline text-yellow-300"></i>
+            </button>
+        </header>
+
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6 mb-6 transition-all duration-300">
+            <div class="flex mb-4">
+                <input 
+                    id="new-task-input" 
+                    type="text" 
+                    placeholder="Ajouter une nouvelle tâche..." 
+                    class="flex-grow px-4 py-3 rounded-l-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white"
+                    aria-label="Nouvelle tâche"
+                >
+                <button 
+                    id="add-task-btn" 
+                    class="px-4 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-r-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-opacity-50 transition-colors"
+                >
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+                <input 
+                    id="search-input" 
+                    type="text" 
+                    placeholder="Rechercher..." 
+                    class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white flex-grow"
+                    aria-label="Rechercher des tâches"
+                >
+                <select 
+                    id="priority-filter" 
+                    class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white"
+                    aria-label="Filtrer par priorité"
+                >
+                    <option value="all">Toutes les priorités</option>
+                    <option value="high">Haute</option>
+                    <option value="medium">Moyenne</option>
+                    <option value="low">Basse</option>
+                </select>
+                <input 
+                    id="date-filter" 
+                    type="date" 
+                    class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white"
+                    aria-label="Filtrer par date"
+                >
+            </div>
+
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex space-x-2">
+                    <button 
+                        id="filter-all" 
+                        class="px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                    >
+                        Toutes
+                    </button>
+                    <button 
+                        id="filter-active" 
+                        class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                    >
+                        Actives
+                    </button>
+                    <button 
+                        id="filter-completed" 
+                        class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                    >
+                        Terminées
+                    </button>
+                </div>
+                <button 
+                    id="clear-completed" 
+                    class="px-4 py-2 bg-danger-light dark:bg-danger-dark text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                    Tout effacer
+                </button>
+                <button 
+                    id="export-btn" 
+                    class="px-4 py-2 bg-success-light dark:bg-success-dark text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                    Exporter JSON
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transition-all duration-300">
+            <div id="task-list" class="divide-y divide-gray-200 dark:divide-gray-600" aria-live="polite">
+                <!-- Les tâches seront ajoutées ici dynamiquement -->
+            </div>
+
+            <div class="p-4 bg-gray-50 dark:bg-gray-600 flex justify-between items-center">
+                <span id="remaining-count" class="text-gray-600 dark:text-gray-300">0 tâches restantes</span>
+                <span id="total-count" class="text-gray-600 dark:text-gray-300">0 tâches au total</span>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center text-gray-500 dark:text-gray-400 text-sm">
+            <p>Astuces : Appuyez sur Entrée pour ajouter, Escape pour annuler, Delete pour supprimer</p>
+            <p>Glissez-déposez pour réorganiser les tâches</p>
+        </div>
+    </div>
+
+    <script>
+        // Données initiales
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let currentFilter = 'all';
+        let currentPriorityFilter = 'all';
+        let currentDateFilter = '';
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Éléments DOM
+        const taskInput = document.getElementById('new-task-input');
+        const addTaskBtn = document.getElementById('add-task-btn');
+        const taskList = document.getElementById('task-list');
+        const remainingCount = document.getElementById('remaining-count');
+        const totalCount = document.getElementById('total-count');
+        const filterAll = document.getElementById('filter-all');
+        const filterActive = document.getElementById('filter-active');
+        const filterCompleted = document.getElementById('filter-completed');
+        const clearCompleted = document.getElementById('clear-completed');
+        const exportBtn = document.getElementById('export-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const searchInput = document.getElementById('search-input');
+        const priorityFilter = document.getElementById('priority-filter');
+        const dateFilter = document.getElementById('date-filter');
+
+        // Initialisation
+        document.documentElement.classList.toggle('dark', darkMode);
+        renderTasks();
+        updateCounters();
+
+        // Écouteurs d'événements
+        addTaskBtn.addEventListener('click', addTask);
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+        
+        filterAll.addEventListener('click', () => {
+            currentFilter = 'all';
+            updateActiveFilterButtons();
+            renderTasks();
+        });
+        
+        filterActive.addEventListener('click', () => {
+            currentFilter = 'active';
+            updateActiveFilterButtons();
+            renderTasks();
+        });
+        
+        filterCompleted.addEventListener('click', () => {
+            currentFilter = 'completed';
+            updateActiveFilterButtons();
+            renderTasks();
+        });
+        
+        clearCompleted.addEventListener('click', clearCompletedTasks);
+        exportBtn.addEventListener('click', exportToJson);
+        themeToggle.addEventListener('click', toggleTheme);
+        searchInput.addEventListener('input', () => renderTasks());
+        priorityFilter.addEventListener('change', () => {
+            currentPriorityFilter = priorityFilter.value;
+            renderTasks();
+        });
+        dateFilter.addEventListener('change', () => {
+            currentDateFilter = dateFilter.value;
+            renderTasks();
+        });
+
+        // Fonctions principales
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
+
+            const newTask = {
+                id: Date.now(),
+                text,
+                completed: false,
+                priority: 'medium',
+                dueDate: '',
+                createdAt: new Date().toISOString()
+            };
+
+            tasks.unshift(newTask);
+            saveTasks();
+            taskInput.value = '';
+            renderTasks();
+            updateCounters();
+            showNotification('Tâche ajoutée avec succès', 'success');
+        }
+
+        function toggleTaskCompletion(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveTasks();
+                renderTasks();
+                updateCounters();
+                showNotification(`Tâche marquée comme ${task.completed ? 'terminée' : 'active'}`, 'info');
+            }
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+            updateCounters();
+            showNotification('Tâche supprimée', 'danger');
+        }
+
+        function editTask(id, newText, newPriority, newDueDate) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.text = newText;
+                task.priority = newPriority;
+                task.dueDate = newDueDate;
+                saveTasks();
+                renderTasks();
+                showNotification('Tâche modifiée', 'info');
+            }
+        }
+
+        function clearCompletedTasks() {
+            tasks = tasks.filter(t => !t.completed);
+            saveTasks();
+            renderTasks();
+            updateCounters();
+            showNotification('Tâches terminées effacées', 'danger');
+        }
+
+        function updateCounters() {
+            const remaining = tasks.filter(t => !t.completed).length;
+            remainingCount.textContent = `${remaining} tâche${remaining !== 1 ? 's' : ''} restante${remaining !== 1 ? 's' : ''}`;
+            totalCount.textContent = `${tasks.length} tâche${tasks.length !== 1 ? 's' : ''} au total`;
+        }
+
+        function updateActiveFilterButtons() {
+            filterAll.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            filterActive.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            filterCompleted.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            
+            filterAll.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+            filterActive.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+            filterCompleted.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+
+            if (currentFilter === 'all') {
+                filterAll.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+                filterAll.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            } else if (currentFilter === 'active') {
+                filterActive.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+                filterActive.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            } else if (currentFilter === 'completed') {
+                filterCompleted.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-white');
+                filterCompleted.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+            }
+        }
+
+        function renderTasks() {
+            // Filtrer les tâches
+            let filteredTasks = [...tasks];
+            
+            // Filtre par statut
+            if (currentFilter === 'active') {
+                filteredTasks = filteredTasks.filter(t => !t.completed);
+            } else if (currentFilter === 'completed') {
+                filteredTasks = filteredTasks.filter(t => t.completed);
+            }
+            
+            // Filtre par priorité
+            if (currentPriorityFilter !== 'all') {
+                filteredTasks = filteredTasks.filter(t => t.priority === currentPriorityFilter);
+            }
+            
+            // Filtre par date
+            if (currentDateFilter) {
+                filteredTasks = filteredTasks.filter(t => t.dueDate === currentDateFilter);
+            }
+            
+            // Filtre par recherche
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredTasks = filteredTasks.filter(t => 
+                    t.text.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Pagination (si plus de 50 tâches)
+            const pageSize = 50;
+            const paginatedTasks = filteredTasks.slice(0, pageSize);
+
+            // Rendu
+            taskList.innerHTML = '';
+            
+            if (paginatedTasks.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'p-4 text-center text-gray-500 dark:text-gray-400';
+                emptyMessage.textContent = 'Aucune tâche trouvée';
+                taskList.appendChild(emptyMessage);
+                return;
+            }
+
+            paginatedTasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.className = `task-item p-4 flex items-center justify-between ${task.completed ? 'bg-gray-50 dark:bg-gray-600' : 'bg-white dark:bg-gray-700'} priority-${task.priority} animate-fade-in`;
+                taskElement.draggable = true;
+                taskElement.dataset.id = task.id;
+                taskElement.setAttribute('aria-label', `Tâche: ${task.text}, ${task.completed ? 'terminée' : 'active'}, priorité ${task.priority}`);
+
+                // Gestion du glisser-déposer
+                taskElement.addEventListener('dragstart', handleDragStart);
+                taskElement.addEventListener('dragover', handleDragOver);
+                taskElement.addEventListener('drop', handleDrop);
+                taskElement.addEventListener('dragend', handleDragEnd);
+
+                const leftSection = document.createElement('div');
+                leftSection.className = 'flex items-center flex-grow';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'h-5 w-5 rounded border-gray-300 text-primary-light dark:text-primary-dark focus:ring-primary-light mr-3';
+                checkbox.checked = task.completed;
+                checkbox.addEventListener('change', () => toggleTaskCompletion(task.id));
+                checkbox.setAttribute('aria-label', task.completed ? 'Marquer comme non terminée' : 'Marquer comme terminée');
+
+                const taskText = document.createElement(task.completed ? 'del' : 'span');
+                taskText.className = `flex-grow ${task.completed ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-white'}`;
+                taskText.textContent = task.text;
+
+                leftSection.appendChild(checkbox);
+                leftSection.appendChild(taskText);
+
+                const rightSection = document.createElement('div');
+                rightSection.className = 'flex items-center space-x-3';
+
+                // Affichage de la date d'échéance si elle existe
+                if (task.dueDate) {
+                    const dueDate = document.createElement('span');
+                    dueDate.className = 'text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300';
+                    dueDate.textContent = formatDate(task.dueDate);
+                    rightSection.appendChild(dueDate);
+                }
+
+                // Icône de priorité
+                const priorityIcon = document.createElement('i');
+                priorityIcon.className = getPriorityIconClass(task.priority);
+                priorityIcon.setAttribute('aria-label', `Priorité ${task.priority}`);
+                rightSection.appendChild(priorityIcon);
+
+                // Boutons d'action
+                const editBtn = document.createElement('button');
+                editBtn.className = 'text-gray-500 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark focus:outline-none';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                editBtn.addEventListener('click', () => openEditModal(task));
+                editBtn.setAttribute('aria-label', 'Modifier la tâche');
+                rightSection.appendChild(editBtn);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'text-gray-500 dark:text-gray-400 hover:text-danger-light dark:hover:text-danger-dark focus:outline-none';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.addEventListener('click', () => deleteTask(task.id));
+                deleteBtn.setAttribute('aria-label', 'Supprimer la tâche');
+                rightSection.appendChild(deleteBtn);
+
+                taskElement.appendChild(leftSection);
+                taskElement.appendChild(rightSection);
+
+                // Gestion du double-clic pour l'édition
+                taskElement.addEventListener('dblclick', () => openEditModal(task));
+
+                taskList.appendChild(taskElement);
+            });
+
+            // Ajouter un message si des tâches sont masquées par la pagination
+            if (filteredTasks.length > pageSize) {
+                const paginationMessage = document.createElement('div');
+                paginationMessage.className = 'p-4 text-center text-gray-500 dark:text-gray-400 text-sm';
+                paginationMessage.textContent = `Affichage des 50 premières tâches sur ${filteredTasks.length}. Utilisez les filtres pour affiner les résultats.`;
+                taskList.appendChild(paginationMessage);
+            }
+        }
+
+        function openEditModal(task) {
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in';
+            modal.setAttribute('aria-modal', 'true');
+            modal.setAttribute('aria-label', 'Modifier la tâche');
+
+            // Contenu du modal
+            const modalContent = document.createElement('div');
+            modalContent.className = 'bg-white dark:bg-gray-700 rounded-lg shadow-xl p-6 w-full max-w-md animate-slide-up';
+
+            // Titre
+            const title = document.createElement('h2');
+            title.className = 'text-xl font-bold mb-4 text-gray-800 dark:text-white';
+            title.textContent = 'Modifier la tâche';
+            modalContent.appendChild(title);
+
+            // Champ de texte
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.className = 'w-full px-4 py-2 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white';
+            textInput.value = task.text;
+            textInput.setAttribute('aria-label', 'Texte de la tâche');
+            modalContent.appendChild(textInput);
+
+            // Sélecteur de priorité
+            const priorityLabel = document.createElement('label');
+            priorityLabel.className = 'block mb-2 text-gray-700 dark:text-gray-300';
+            priorityLabel.textContent = 'Priorité';
+            modalContent.appendChild(priorityLabel);
+
+            const prioritySelect = document.createElement('select');
+            prioritySelect.className = 'w-full px-4 py-2 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white';
+            prioritySelect.setAttribute('aria-label', 'Priorité de la tâche');
+            
+            const priorities = [
+                { value: 'high', label: 'Haute' },
+                { value: 'medium', label: 'Moyenne' },
+                { value: 'low', label: 'Basse' }
+            ];
+            
+            priorities.forEach(priority => {
+                const option = document.createElement('option');
+                option.value = priority.value;
+                option.textContent = priority.label;
+                if (priority.value === task.priority) {
+                    option.selected = true;
+                }
+                prioritySelect.appendChild(option);
+            });
+            
+            modalContent.appendChild(prioritySelect);
+
+            // Date d'échéance
+            const dateLabel = document.createElement('label');
+            dateLabel.className = 'block mb-2 text-gray-700 dark:text-gray-300';
+            dateLabel.textContent = 'Date d\'échéance (optionnelle)';
+            modalContent.appendChild(dateLabel);
+
+            const dateInput = document.createElement('input');
+            dateInput.type = 'date';
+            dateInput.className = 'w-full px-4 py-2 mb-6 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-800 dark:text-white';
+            dateInput.value = task.dueDate || '';
+            dateInput.setAttribute('aria-label', 'Date d\'échéance');
+            modalContent.appendChild(dateInput);
+
+            // Boutons
+            const buttonsContainer = document.createElement('div');
+            buttonsContainer.className = 'flex justify-end space-x-3';
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-opacity-90 transition-colors';
+            cancelBtn.textContent = 'Annuler';
+            cancelBtn.addEventListener('click', () => modal.remove());
+            cancelBtn.setAttribute('aria-label', 'Annuler les modifications');
+            buttonsContainer.appendChild(cancelBtn);
+
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-opacity-90 transition-colors';
+            saveBtn.textContent = 'Enregistrer';
+            saveBtn.addEventListener('click', () => {
+                editTask(task.id, textInput.value, prioritySelect.value, dateInput.value);
+                modal.remove();
+            });
+            saveBtn.setAttribute('aria-label', 'Enregistrer les modifications');
+            buttonsContainer.appendChild(saveBtn);
+
+            modalContent.appendChild(buttonsContainer);
+            modal.appendChild(modalContent);
+
+            // Gestion de la touche Escape
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    modal.remove();
+                }
+            });
+
+            document.body.appendChild(modal);
+            textInput.focus();
+        }
+
+        function exportToJson() {
+            const dataStr = JSON.stringify(tasks, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `todos-${new Date().toISOString().slice(0, 10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Export JSON réussi', 'success');
+        }
+
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.documentElement.classList.toggle('dark', darkMode);
+            localStorage.setItem('darkMode', darkMode);
+            showNotification(`Mode ${darkMode ? 'sombre' : 'clair'} activé`, 'info');
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white animate-fade-in ${getNotificationColorClass(type)}`;
+            notification.textContent = message;
+            notification.setAttribute('role', 'alert');
+            notification.setAttribute('aria-live', 'assertive');
+
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Fonctions utilitaires
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function getPriorityIconClass(priority) {
+            switch (priority) {
+                case 'high': return 'fas fa-exclamation-circle text-danger-light dark:text-danger-dark';
+                case 'medium': return 'fas fa-info-circle text-primary-light dark:text-primary-dark';
+                case 'low': return 'fas fa-arrow-down text-success-light dark:text-success-dark';
+                default: return 'fas fa-info-circle text-gray-400';
+            }
+        }
+
+        function getNotificationColorClass(type) {
+            switch (type) {
+                case 'success': return 'bg-success-light dark:bg-success-dark';
+                case 'danger': return 'bg-danger-light dark:bg-danger-dark';
+                case 'warning': return 'bg-warning-light dark:bg-warning-dark';
+                default: return 'bg-primary-light dark:bg-primary-dark';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Fonctions pour le glisser-déposer
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+            this.classList.add('opacity-50', 'border-2', 'border-dashed', 'border-primary-light');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            if (draggedItem !== this) {
+                // Trouver les index des éléments dans le tableau tasks
+                const draggedId = parseInt(draggedItem.dataset.id);
+                const targetId = parseInt(this.dataset.id);
+                
+                const draggedIndex = tasks.findIndex(t => t.id === draggedId);
+                const targetIndex = tasks.findIndex(t => t.id === targetId);
+                
+                if (draggedIndex !== -1 && targetIndex !== -1) {
+                    // Réorganiser le tableau
+                    const [removed] = tasks.splice(draggedIndex, 1);
+                    tasks.splice(targetIndex, 0, removed);
+                    
+                    // Sauvegarder et re-rendre
+                    saveTasks();
+                    renderTasks();
+                    showNotification('Tâche déplacée', 'info');
+                }
+            }
+            
+            return false;
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('opacity-50', 'border-2', 'border-dashed', 'border-primary-light');
+        }
+
+        // Gestion des raccourcis clavier globaux
+        document.addEventListener('keydown', (e) => {
+            // Focus sur le champ de saisie avec Ctrl+Alt+N
+            if (e.ctrlKey && e.altKey && e.key === 'n') {
+                e.preventDefault();
+                taskInput.focus();
+            }
+            
+            // Supprimer la tâche sélectionnée avec Delete
+            if (e.key === 'Delete' && document.activeElement.classList.contains('task-item')) {
+                const taskId = parseInt(document.activeElement.dataset.id);
+                deleteTask(taskId);
+            }
+        });
+    </script>
+</body>
+</html>
