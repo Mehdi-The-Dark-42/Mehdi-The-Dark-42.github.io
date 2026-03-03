@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projet Casino – Support Informatique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #1c2333;
+      --border: #30363d;
+      --green: #2ea84f;
+      --green-glow: rgba(46,168,79,0.25);
+      --red: #e05252;
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --accent: #58a6ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 80px 40px 60px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 60% 0%, rgba(46,168,79,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .hero-text { flex: 1; min-width: 300px; }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--green); }
+
+    .badge {
+      display: inline-block;
+      background: rgba(46,168,79,0.15);
+      border: 1px solid rgba(46,168,79,0.4);
+      color: var(--green);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    h1 span { color: var(--green); }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: 'Space Mono', monospace;
+      padding: 5px 14px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    /* mock app card in hero */
+    .hero-mockup {
+      flex: 0 0 auto;
+      width: 360px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(46,168,79,0.1);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .mockup-bar {
+      background: #0d1117;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
+    .mockup-body { padding: 20px; }
+    .mock-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-family: 'Space Mono', monospace;
+    }
+    .mock-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-family: 'Space Mono', monospace;
+    }
+    .mock-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .mock-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.8rem;
+      width: 100%;
+      margin-bottom: 14px;
+      font-family: 'Space Mono', monospace;
+    }
+    .mock-select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.8rem;
+      width: 100%;
+      margin-bottom: 14px;
+      font-family: 'Space Mono', monospace;
+      appearance: none;
+    }
+    .mock-btn-green {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      width: 100%;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+    }
+    .mock-btn-red {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      width: 100%;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── CONTEXT ── */
+    .context-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 700px) {
+      .context-grid { grid-template-columns: 1fr; }
+      .hero-mockup { width: 100%; }
+    }
+    .context-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .context-card:hover { border-color: rgba(46,168,79,0.4); }
+    .context-card .icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+    .context-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .context-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ── FEATURES ── */
+    .features-section { margin-bottom: 60px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature:hover {
+      transform: translateY(-3px);
+      border-color: rgba(46,168,79,0.4);
+    }
+    .feature::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .feature:hover::before { opacity: 1; }
+    .feature-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .feature h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .feature p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+
+    /* ── FLOW ── */
+    .flow-section { margin-bottom: 60px; }
+    .flow {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -14px;
+      top: 20px;
+      color: var(--green);
+      font-size: 1.2rem;
+      z-index: 1;
+    }
+    .step-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--green);
+      font-weight: 700;
+    }
+    .flow-step h5 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .flow-step p {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 0 8px;
+    }
+
+    /* ── TECH STACK ── */
+    .stack-section { margin-bottom: 60px; }
+    .stack-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .stack-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .stack-item:hover {
+      border-color: var(--green);
+      background: rgba(46,168,79,0.05);
+    }
+    .stack-item i { color: var(--green); font-size: 1.1rem; }
+
+    /* ── SCREENSHOTS ── */
+    .screenshots-section { margin-bottom: 60px; }
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 800px) {
+      .screens-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .screen-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .screen-card:hover {
+      transform: scale(1.02);
+      border-color: rgba(46,168,79,0.5);
+    }
+    .screen-img {
+      background: #0d1b1e;
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+    }
+    /* Mini mockup inside screenshot card */
+    .mini-form {
+      background: #1a2535;
+      border-radius: 10px;
+      padding: 14px;
+      width: 100%;
+      max-width: 220px;
+      border: 1px solid #2a3545;
+    }
+    .mini-form-title {
+      font-size: 0.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mini-row {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 5px;
+    }
+    .mini-row.w60 { width: 60%; }
+    .mini-row.w80 { width: 80%; }
+    .mini-row.w40 { width: 40%; }
+    .mini-field {
+      height: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid #2a3545;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .mini-btn-g {
+      height: 20px;
+      background: var(--green);
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .mini-btn-r {
+      height: 20px;
+      background: var(--red);
+      border-radius: 4px;
+    }
+    .screen-info {
+      padding: 12px 14px;
+    }
+    .screen-info h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; }
+    .screen-info p { font-size: 0.72rem; color: var(--muted); }
+
+    /* ── FOOTER NAV ── */
+    .bottom-nav {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .nav-info { color: var(--muted); font-size: 0.85rem; }
+    .nav-info strong { color: var(--text); }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-back:hover {
+      border-color: var(--green);
+      background: rgba(46,168,79,0.08);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <a href="#" class="back-btn" onclick="history.back(); return false;">
+        <i class="fas fa-arrow-left"></i> Retour au portfolio
+      </a>
+      <div class="badge">🏢 Projet Entreprise · Casino</div>
+      <h1>Support<br/><span>Informatique</span><br/>en ligne</h1>
+      <p class="hero-desc">
+        Application web développée pour les équipes Casino, permettant aux employés de déclarer leurs incidents informatiques, choisir un créneau de rendez-vous et notifier le service IT automatiquement.
+      </p>
+      <div class="tags">
+        <span class="tag">HTML / CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">PHP</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">Mail automatique</span>
+      </div>
+    </div>
+
+    <!-- Mini app mockup -->
+    <div class="hero-mockup">
+      <div class="mockup-bar">
+        <div class="dot r"></div>
+        <div class="dot y"></div>
+        <div class="dot g"></div>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-title">Direction Satisfaction Utilisateur</div>
+        <div class="mock-sub">Merci de remplir ce formulaire.</div>
+        <div class="mock-label">Quel service demandez-vous ?</div>
+        <select class="mock-select">
+          <option>Problème logiciel</option>
+        </select>
+        <div class="mock-label">Matricule</div>
+        <div class="mock-input">U883983</div>
+        <div class="mock-label">Nom de l'ordinateur</div>
+        <div class="mock-input">WE600592</div>
+        <div class="mock-label">Description de l'incident</div>
+        <div class="mock-input" style="height:48px;"></div>
+        <button class="mock-btn-green">✅ Valider</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTENT ─── -->
+<div class="content">
+
+  <!-- CONTEXT -->
+  <div class="section-label">Contexte du projet</div>
+  <h2>Pourquoi ce projet ?</h2>
+  <div class="context-grid">
+    <div class="context-card">
+      <div class="icon">🏪</div>
+      <h3>Besoin client</h3>
+      <p>Le service informatique de Casino recevait des demandes d'intervention de manière désorganisée — par téléphone, e-mail ou verbal. Il fallait centraliser et structurer ces signalements.</p>
+    </div>
+    <div class="context-card">
+      <div class="icon">🎯</div>
+      <h3>Objectif</h3>
+      <p>Créer un formulaire web accessible depuis le réseau interne permettant à chaque employé de soumettre un ticket, décrire son problème et choisir un créneau de rendez-vous.</p>
+    </div>
+    <div class="context-card">
+      <div class="icon">⚡</div>
+      <h3>Gestion des urgences</h3>
+      <p>Un bouton dédié <strong>URGENT</strong> permet de signaler un incident critique. Le service IT est alerté en priorité pour intervenir immédiatement.</p>
+    </div>
+    <div class="context-card">
+      <div class="icon">📅</div>
+      <h3>Prise de rendez-vous</h3>
+      <p>Après validation du formulaire, l'employé choisit lui-même la date et l'heure de l'intervention dans les créneaux d'ouverture (9h–11h30 · 14h–17h).</p>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-section">
+    <div class="section-label">Fonctionnalités</div>
+    <h2>Ce que fait l'application</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-num">01</div>
+        <h4>Formulaire de signalement</h4>
+        <p>Saisie du matricule, nom de l'ordinateur, numéro de téléphone, type de service et description détaillée du problème.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-num">02</div>
+        <h4>Validation des données</h4>
+        <p>Vérification des formats saisis côté client et côté serveur. Message d'erreur explicite si un champ ne respecte pas le format attendu.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-num">03</div>
+        <h4>Confirmation visuelle</h4>
+        <p>Récapitulatif du ticket généré automatiquement après soumission avec toutes les informations de la demande.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-num">04</div>
+        <h4>Choix du rendez-vous</h4>
+        <p>Sélection d'une date et d'une heure pour l'intervention, avec affichage des horaires d'ouverture du service.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-num">05</div>
+        <h4>Envoi d'e-mail automatique</h4>
+        <p>Un mail de confirmation est envoyé à l'employé avec le résumé de sa demande et le créneau du rendez-vous.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-num">06</div>
+        <h4>Mode URGENT</h4>
+        <p>Un bouton rouge signale les incidents critiques. La demande est marquée prioritaire et traitée en premier.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOW -->
+  <div class="flow-section">
+    <div class="section-label">Parcours utilisateur</div>
+    <h2>De la déclaration à l'intervention</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="step-circle">1</div>
+        <h5>Accès</h5>
+        <p>L'employé ouvre l'app depuis le réseau Casino</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-circle">2</div>
+        <h5>Saisie</h5>
+        <p>Rempli le formulaire (matricule, ordi, problème…)</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-circle">3</div>
+        <h5>Validation</h5>
+        <p>Vérification des données et soumission</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-circle">4</div>
+        <h5>RDV</h5>
+        <p>Choisit date &amp; heure d'intervention</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-circle">5</div>
+        <h5>Confirmation</h5>
+        <p>E-mail envoyé + récapitulatif affiché</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-circle">6</div>
+        <h5>Intervention</h5>
+        <p>Le technicien intervient au créneau choisi</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STACK -->
+  <div class="stack-section">
+    <div class="section-label">Technologies utilisées</div>
+    <h2>Stack technique</h2>
+    <div class="stack-grid">
+      <div class="stack-item"><i class="fab fa-html5"></i> HTML5</div>
+      <div class="stack-item"><i class="fab fa-css3-alt"></i> CSS3</div>
+      <div class="stack-item"><i class="fab fa-js"></i> JavaScript</div>
+      <div class="stack-item"><i class="fab fa-php"></i> PHP</div>
+      <div class="stack-item"><i class="fas fa-database"></i> MySQL</div>
+      <div class="stack-item"><i class="fas fa-envelope"></i> PHPMailer</div>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screenshots-section">
+    <div class="section-label">Aperçu</div>
+    <h2>Vues de l'application</h2>
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-img">
+          <div class="mini-form">
+            <div class="mini-form-title">Direction Satisfaction Utilisateur</div>
+            <div class="mini-row w80" style="margin-bottom:8px;"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field" style="height:30px;"></div>
+            <div class="mini-btn-g"></div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Formulaire principal</h4>
+          <p>Saisie du service, matricule, ordinateur et description</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-img">
+          <div class="mini-form">
+            <div class="mini-row w80" style="margin-bottom:6px;"></div>
+            <div class="mini-row w60" style="margin-bottom:10px;"></div>
+            <div style="font-size:0.55rem;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'Space Mono',monospace;">Choisissez votre rendez-vous</div>
+            <div style="font-size:0.5rem;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:3px;">📅 DATE :</div>
+            <div class="mini-field"></div>
+            <div style="font-size:0.5rem;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:3px;">⏰ HORAIRES :</div>
+            <div class="mini-field"></div>
+            <div class="mini-btn-g"></div>
+            <div class="mini-btn-r"></div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Prise de rendez-vous</h4>
+          <p>Choix de la date et de l'heure + bouton URGENT</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-img">
+          <div class="mini-form">
+            <div class="mini-row w80" style="margin-bottom:6px;"></div>
+            <div class="mini-row w60" style="margin-bottom:10px;"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field"></div>
+            <div class="mini-btn-g"></div>
+            <div style="background:rgba(46,168,79,0.2);border:1px solid var(--green);border-radius:4px;padding:4px 6px;margin-top:4px;">
+              <div style="font-size:0.5rem;color:var(--green);font-family:'Space Mono',monospace;">✓ RDV enregistré</div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Confirmation</h4>
+          <p>RDV enregistré + e-mail de confirmation envoyé</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── BOTTOM NAV ─── -->
+<div class="bottom-nav">
+  <div class="nav-info">
+    Projet réalisé pour <strong>Casino</strong> · Stage / Alternance<br/>
+    <span style="font-size:0.75rem;">Direction Satisfaction Utilisateur – Service IT</span>
+  </div>
+  <a href="#" class="btn-back" onclick="history.back(); return false;">
+    <i class="fas fa-arrow-left"></i> Retour au portfolio
+  </a>
+</div>
+
+</body>
+</html>
