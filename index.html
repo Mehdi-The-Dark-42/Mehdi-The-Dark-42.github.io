@@ -1475,7 +1475,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
     btn.disabled = true;
 
-    emailjs.send('TON_SERVICE_ID', 'TON_TEMPLATE_ID', {
+    emailjs.send('to_email', {
     from_name: this.querySelector('[name="from_name"]').value,
     from_email: this.querySelector('[name="from_email"]').value,
     subject: this.querySelector('[name="subject"]').value,
