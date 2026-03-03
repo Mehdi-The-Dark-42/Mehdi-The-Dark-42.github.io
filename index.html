@@ -1207,7 +1207,7 @@
                             <button class="project-link primary" onclick="window.location.href='Site_E_Commerces.html'">
   <i class="fas fa-eye"></i>Détails du projet
                             </button>
-                            <a href="#" class="project-link ghost"><i class="fab fa-github"></i>Code</a>
+                        
                         </div>
                     </div>
                 </div>
@@ -1468,19 +1468,34 @@
         });
 
         // Contact form
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('.btn-submit');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
-            btn.disabled = true;
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
-                btn.disabled = false;
-                document.getElementById('success-msg').style.display = 'block';
-                this.reset();
-                setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
-            }, 1500);
+      // Remplace le bloc contact form dans ton <script>
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.btn-submit');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
+    btn.disabled = true;
+
+    emailjs.send('TON_SERVICE_ID', 'TON_TEMPLATE_ID', {
+    from_name: this.querySelector('[name="from_name"]').value,
+    from_email: this.querySelector('[name="from_email"]').value,
+    subject: this.querySelector('[name="subject"]').value,
+    message: this.querySelector('[name="message"]').value,
+    to_email: 'mehdiahnou@gmail.com'
+})
+        .then(() => {
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
+            btn.disabled = false;
+            document.getElementById('success-msg').style.display = 'block';
+            document.getElementById('error-msg').style.display = 'none';
+            this.reset();
+            setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
+        })
+        .catch(() => {
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
+            btn.disabled = false;
+            document.getElementById('error-msg').style.display = 'block';
         });
+});
 
         // Header scroll effect
         const header = document.querySelector('header');
