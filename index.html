@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --bg: #0a0a0f;
@@ -161,7 +162,6 @@
             50% { transform: translateY(-30px) scale(1.05); }
         }
 
-        /* Grid noise overlay */
         .hero-bg::after {
             content: '';
             position: absolute;
@@ -275,7 +275,6 @@
         }
         .hero-socials a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-        /* Scroll indicator */
         .scroll-hint {
             position: absolute;
             bottom: 2rem;
@@ -294,7 +293,6 @@
         .scroll-hint i { animation: scrollBounce 2s infinite; font-size: 0.8rem; }
         @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-        /* Section base */
         section { padding: 7rem 3rem; }
 
         .section-label {
@@ -382,8 +380,6 @@
             background-clip: text;
         }
         .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
-
-        .about-right {}
 
         .passion-card {
             background: var(--surface2);
@@ -674,16 +670,14 @@
             padding: 0.5rem 1rem;
             border-radius: 100px;
             transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
         }
         .project-link.primary { background: var(--accent); color: #fff; }
         .project-link.primary:hover { background: #6b5ce7; }
-        .project-link.ghost { border: 1px solid var(--border); color: var(--text-muted); }
+        .project-link.ghost { border: 1px solid var(--border); color: var(--text-muted); background: transparent; }
         .project-link.ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-
-        .github-cta {
-            text-align: center;
-            margin-top: 3rem;
-        }
 
         /* Contact */
         #contact { background: var(--surface); }
@@ -789,6 +783,7 @@
             gap: 0.5rem;
         }
         .btn-submit:hover { background: #6b5ce7; transform: translateY(-1px); box-shadow: 0 8px 25px var(--accent-glow); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
         /* Footer */
         footer {
@@ -805,12 +800,23 @@
         footer a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
         footer a:hover { color: var(--text); }
 
-        /* Success message */
+        /* Messages formulaire */
         .success-msg {
             display: none;
             background: rgba(67,232,216,0.1);
             border: 1px solid rgba(67,232,216,0.25);
             color: var(--accent3);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .error-msg {
+            display: none;
+            background: rgba(240,98,146,0.1);
+            border: 1px solid rgba(240,98,146,0.25);
+            color: var(--accent2);
             padding: 0.9rem 1.2rem;
             border-radius: 10px;
             font-size: 0.9rem;
@@ -1205,37 +1211,38 @@
                         </div>
                         <div class="project-links">
                             <button class="project-link primary" onclick="window.location.href='Site_E_Commerces.html'">
-  <i class="fas fa-eye"></i>Détails du projet
+                                <i class="fas fa-eye"></i>Détails du projet
                             </button>
-                        
                         </div>
                     </div>
                 </div>
 
-                <!-- Normal -->
+                <!-- TP Météo -->
                 <div class="project-card">
                     <div class="project-thumb" style="background: linear-gradient(135deg, #1565c0, #42a5f5)">
                         <i class="fas fa-tools"></i>
                         <span class="project-badge">Pro</span>
                     </div>
                     <div class="project-body">
-                       <h3>TP Météo IA</h3>
-<p>Chatbot intelligent permettant d'obtenir des informations météo en langage naturel, via une interface conversationnelle.</p>
-<div class="project-tags">
-    <span class="project-tag">Python</span>
-    <span class="project-tag">API Météo</span>
-    <span class="project-tag">IA / NLP</span>
-</div>
+                        <h3>TP Météo IA</h3>
+                        <p>Chatbot intelligent permettant d'obtenir des informations météo en langage naturel, via une interface conversationnelle.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">API Météo</span>
+                            <span class="project-tag">IA / NLP</span>
+                        </div>
                         <div class="project-links">
                             <button class="project-link primary" onclick="window.location.href='meteo-project.html'">
-  <i class="fas fa-eye"></i>Détails du projet
-       <button class="project-link primary" onclick="window.location.href='TP_meteo.html'">
-  <i class="fas fa-eye"></i>Aperçus du projet
-
+                                <i class="fas fa-eye"></i>Détails
+                            </button>
+                            <button class="project-link ghost" onclick="window.location.href='TP_meteo.html'">
+                                <i class="fas fa-external-link-alt"></i>Aperçu
+                            </button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Laravel -->
                 <div class="project-card">
                     <div class="project-thumb" style="background: linear-gradient(135deg, #b71c1c, #ef5350)">
                         <i class="fab fa-laravel"></i>
@@ -1256,6 +1263,7 @@
                     </div>
                 </div>
 
+                <!-- Todo App -->
                 <div class="project-card">
                     <div class="project-thumb" style="background: linear-gradient(135deg, #00897b, #26a69a)">
                         <i class="fas fa-tasks"></i>
@@ -1271,34 +1279,32 @@
                         </div>
                         <div class="project-links">
                             <button class="project-link primary" onclick="window.location.href='gestionnaires_taches.html'">
-  <i class="fas fa-eye"></i>Détails du projet
+                                <i class="fas fa-eye"></i>Détails du projet
                             </button>
-                           
                         </div>
                     </div>
                 </div>
 
+                <!-- Casino -->
                 <div class="project-card">
                     <div class="project-thumb" style="background: linear-gradient(135deg, #e65100, #ffa726)">
                         <i class="fas fa-chart-line"></i>
                         <span class="project-badge">Dashboard</span>
                     </div>
                     <div class="project-body">
-                       <h3>Casino – Support Informatique</h3>
-<p>Formulaire de ticketing développé pour Casino, permettant aux employés de signaler et soumettre leurs problèmes informatiques afin d'en faciliter la prise en charge.</p>
-<div class="project-tags">
-    <span class="project-tag">HTML/CSS/C++</span>
-    <span class="project-tag">JavaScript</span>
-    <span class="project-tag">Formulaire</span>
-</div>
+                        <h3>Casino – Support Informatique</h3>
+                        <p>Formulaire de ticketing développé pour Casino, permettant aux employés de signaler et soumettre leurs problèmes informatiques afin d'en faciliter la prise en charge.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML/CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">Formulaire</span>
+                        </div>
                         <div class="project-links">
-                         <button class="project-link primary" onclick="window.location.href='casino-project.html'">
-  <i class="fas fa-eye"></i>Détails du projet
-</button>
-                           
+                            <button class="project-link primary" onclick="window.location.href='casino-project.html'">
+                                <i class="fas fa-eye"></i>Détails du projet
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -1350,32 +1356,41 @@
                     </div>
                 </div>
 
+                <!-- Formulaire de contact -->
                 <div class="contact-form">
                     <h3>Envoyez un message</h3>
                     <form id="contact-form" novalidate>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Nom complet</label>
-                                <input type="text" placeholder="Votre nom" required>
+                                <!-- ✅ Attribut name ajouté -->
+                                <input type="text" name="from_name" placeholder="Votre nom" required>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" placeholder="votre@email.com" required>
+                                <!-- ✅ Attribut name ajouté -->
+                                <input type="email" name="from_email" placeholder="votre@email.com" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Sujet</label>
-                            <input type="text" placeholder="Objet de votre message" required>
+                            <!-- ✅ Attribut name ajouté -->
+                            <input type="text" name="subject" placeholder="Objet de votre message" required>
                         </div>
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea>
+                            <!-- ✅ Attribut name ajouté -->
+                            <textarea name="message" rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea>
                         </div>
                         <button type="submit" class="btn-submit">
                             <i class="fas fa-paper-plane"></i>Envoyer le message
                         </button>
+                        <!-- ✅ Les deux messages présents -->
                         <div class="success-msg" id="success-msg">
                             ✅ Message envoyé ! Je vous répondrai très bientôt.
+                        </div>
+                        <div class="error-msg" id="error-msg">
+                            ❌ Une erreur est survenue. Veuillez réessayer ou m'écrire directement par email.
                         </div>
                     </form>
                 </div>
@@ -1394,6 +1409,8 @@
     </footer>
 
     <script>
+
+
         // Cursor
         const cursor = document.getElementById('cursor');
         const ring = document.getElementById('cursor-ring');
@@ -1467,9 +1484,7 @@
             barObs.observe(fill);
         });
 
-        // Contact form
-      // Remplace le bloc contact form dans ton <script>
-// ✅ Formulaire de contact — envoi via FormSubmit (aucune inscription requise)
+        // ✅ Formulaire de contact — envoi via FormSubmit (aucune inscription requise)
         document.getElementById('contact-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -1518,7 +1533,6 @@
                 errorMsg.style.display = 'block';
             }
         });
-});
 
         // Header scroll effect
         const header = document.querySelector('header');
