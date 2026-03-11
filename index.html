@@ -1484,7 +1484,7 @@
             barObs.observe(fill);
         });
 
-        // ✅ Formulaire de contact — envoi via FormSubmit (aucune inscription requise)
+        // Formulaire de contact — Web3Forms (gratuit, direct vers Gmail)
         document.getElementById('contact-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -1494,40 +1494,34 @@
 
             successMsg.style.display = 'none';
             errorMsg.style.display = 'none';
-
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
             btn.disabled = true;
 
-            const data = {
-                name:    this.querySelector('[name="from_name"]').value,
-                email:   this.querySelector('[name="from_email"]').value,
-                subject: this.querySelector('[name="subject"]').value,
-                message: this.querySelector('[name="message"]').value
-            };
-
             try {
-                const res = await fetch('https://formsubmit.co/ajax/mehdiahnou@gmail.com', {
+                const res = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        access_key: 'REMPLACE_PAR_TA_CLE', // ← web3forms.com > Enter your email > copie la clé
+                        name:    this.querySelector('[name="from_name"]').value,
+                        email:   this.querySelector('[name="from_email"]').value,
+                        subject: this.querySelector('[name="subject"]').value,
+                        message: this.querySelector('[name="message"]').value
+                    })
                 });
 
                 const json = await res.json();
 
-                if (json.success === 'true' || json.success === true) {
+                if (json.success) {
                     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
                     btn.disabled = false;
                     successMsg.style.display = 'block';
                     this.reset();
                     setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
                 } else {
-                    throw new Error('Échec envoi');
+                    throw new Error('Échec');
                 }
             } catch (err) {
-                console.error('Erreur envoi:', err);
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
                 btn.disabled = false;
                 errorMsg.style.display = 'block';
