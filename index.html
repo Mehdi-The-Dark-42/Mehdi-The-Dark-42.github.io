@@ -1469,31 +1469,54 @@
 
         // Contact form
       // Remplace le bloc contact form dans ton <script>
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('.btn-submit');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Envoi...';
-    btn.disabled = true;
+// ✅ Formulaire de contact — envoi via FormSubmit (aucune inscription requise)
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-    emailjs.send('to_email', {
-    from_name: this.querySelector('[name="from_name"]').value,
-    from_email: this.querySelector('[name="from_email"]').value,
-    subject: this.querySelector('[name="subject"]').value,
-    message: this.querySelector('[name="message"]').value,
-    to_email: 'mehdiahnou@gmail.com'
-})
-        .then(() => {
-            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
-            btn.disabled = false;
-            document.getElementById('success-msg').style.display = 'block';
-            document.getElementById('error-msg').style.display = 'none';
-            this.reset();
-            setTimeout(() => document.getElementById('success-msg').style.display = 'none', 5000);
-        })
-        .catch(() => {
-            btn.innerHTML = '<i class="fas fa-paper-plane"></i>Envoyer le message';
-            btn.disabled = false;
-            document.getElementById('error-msg').style.display = 'block';
+            const btn = this.querySelector('.btn-submit');
+            const successMsg = document.getElementById('success-msg');
+            const errorMsg = document.getElementById('error-msg');
+
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+            btn.disabled = true;
+
+            const data = {
+                name:    this.querySelector('[name="from_name"]').value,
+                email:   this.querySelector('[name="from_email"]').value,
+                subject: this.querySelector('[name="subject"]').value,
+                message: this.querySelector('[name="message"]').value
+            };
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/mehdiahnou@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const json = await res.json();
+
+                if (json.success === 'true' || json.success === true) {
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+                    btn.disabled = false;
+                    successMsg.style.display = 'block';
+                    this.reset();
+                    setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+                } else {
+                    throw new Error('Échec envoi');
+                }
+            } catch (err) {
+                console.error('Erreur envoi:', err);
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+                btn.disabled = false;
+                errorMsg.style.display = 'block';
+            }
         });
 });
 
