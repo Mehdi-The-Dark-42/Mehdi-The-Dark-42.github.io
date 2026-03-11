@@ -1484,47 +1484,41 @@
             barObs.observe(fill);
         });
 
-        // Formulaire de contact — Web3Forms (gratuit, direct vers Gmail)
-        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+        // Formulaire de contact — Web3Forms
+        const form = document.getElementById('contact-form');
+        const submitBtn = form.querySelector('.btn-submit');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const btn = this.querySelector('.btn-submit');
-            const successMsg = document.getElementById('success-msg');
-            const errorMsg = document.getElementById('error-msg');
+            document.getElementById('success-msg').style.display = 'none';
+            document.getElementById('error-msg').style.display = 'none';
 
-            successMsg.style.display = 'none';
-            errorMsg.style.display = 'none';
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
-            btn.disabled = true;
+            const formData = new FormData(form);
+            formData.append("access_key", "90c76cb0-9319-4c61-8dd8-128dc85ab172");
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+            submitBtn.disabled = true;
 
             try {
-                const res = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        access_key: 'REMPLACE_PAR_TA_CLE', // ← web3forms.com > Enter your email > copie la clé
-                        name:    this.querySelector('[name="from_name"]').value,
-                        email:   this.querySelector('[name="from_email"]').value,
-                        subject: this.querySelector('[name="subject"]').value,
-                        message: this.querySelector('[name="message"]').value
-                    })
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
                 });
+                const data = await response.json();
 
-                const json = await res.json();
-
-                if (json.success) {
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
-                    btn.disabled = false;
-                    successMsg.style.display = 'block';
-                    this.reset();
-                    setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+                if (response.ok) {
+                    document.getElementById('success-msg').style.display = 'block';
+                    form.reset();
+                    setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 5000);
                 } else {
-                    throw new Error('Échec');
+                    document.getElementById('error-msg').style.display = 'block';
                 }
-            } catch (err) {
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
-                btn.disabled = false;
-                errorMsg.style.display = 'block';
+            } catch (error) {
+                document.getElementById('error-msg').style.display = 'block';
+            } finally {
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+                submitBtn.disabled = false;
             }
         });
 
